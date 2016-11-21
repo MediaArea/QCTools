@@ -10,7 +10,6 @@
 #include "Core/SignalServerConnectionChecker.h"
 #include "Core/Preferences.h"
 #include <QSettings>
-#include <QStandardPaths>
 #include <QMetaType>
 #include <QDebug>
 #include <QNetworkAccessManager>

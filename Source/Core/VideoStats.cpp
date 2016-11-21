@@ -195,7 +195,7 @@ void VideoStats::StatsFromExternalData (const char* Data, size_t Size)
                                         const char* value = Tag->Attribute("value");
                                         if(value)
                                         {
-                                            comments[x_Current] = strdup(QString::fromUtf8(value).toHtmlEscaped().toUtf8().data());
+                                            comments[x_Current] = strdup(QString::fromUtf8(value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").toUtf8().data());
                                         }
                                     }
                                     else

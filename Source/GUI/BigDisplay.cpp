@@ -45,7 +45,11 @@
 #include <QShortcut>
 #include <QApplication>
 #include <QDebug>
-#include <QStandardPaths>
+#if QT_VERSION >= 0x050000
+    #include <QStandardPaths>
+#else
+    #include <QDesktopServices>
+#endif
 #include <QDir>
 #include <QSplitter>
 #include <qwt_scale_widget.h>
@@ -2106,7 +2110,11 @@ string BigDisplay::FiltersList_currentOptionChanged(size_t Pos, size_t Picture_C
     str.replace(QString("${height}"), QString::number(FileInfoData->Glue->Height_Get()));
     str.replace(QString("${dar}"), QString::number(FileInfoData->Glue->DAR_Get()));
 
+#if QT_VERSION >= 0x050000
     QString tempLocation = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+#else
+    QString tempLocation = QDesktopServices::storageLocation(QDesktopServices::TempLocation);
+#endif
     QDir tempDir(tempLocation);
 
     QString qctoolsTmpSubDir = "qctools";
@@ -2194,8 +2202,8 @@ void BigDisplay::ShowPicture ()
     if (!isVisible())
         return;
 
-	if (!Picture)
-		return;
+    if (!Picture)
+        return;
 
     if ((!ShouldUpate && Frames_Pos==FileInfoData->Frames_Pos_Get())
      || ( ShouldUpate && false)) // ToDo: try to optimize
@@ -2334,10 +2342,10 @@ void BigDisplay::updateSelection(int Pos, ImageLabel* image, options& opts)
         image->setMinSelectionSize(QSizeF(wSpinBox->minimum(), hSpinBox->minimum()));
         image->setMaxSelectionSize(QSizeF(wSpinBox->maximum(), hSpinBox->maximum()));
 
-        connect(xSpinBox, &DoubleSpinBoxWithSlider::controlValueChanged, image, &ImageLabel::moveSelectionX);
-        connect(ySpinBox, &DoubleSpinBoxWithSlider::controlValueChanged, image, &ImageLabel::moveSelectionY);
-        connect(wSpinBox, &DoubleSpinBoxWithSlider::controlValueChanged, image, &ImageLabel::changeSelectionWidth);
-        connect(hSpinBox, &DoubleSpinBoxWithSlider::controlValueChanged, image, &ImageLabel::changeSelectionHeight);
+        connect(xSpinBox, SIGNAL(controlValueChanged(double)), image, SLOT(moveSelectionX(double)));
+        connect(ySpinBox, SIGNAL(controlValueChanged(double)), image, SLOT(moveSelectionY(double)));
+        connect(wSpinBox, SIGNAL(controlValueChanged(double)), image, SLOT(changeSelectionWidth(double)));
+        connect(hSpinBox, SIGNAL(controlValueChanged(double)), image, SLOT(changeSelectionHeight(double)));
 
         connect(image, SIGNAL(selectionChangeFinished(const QRectF&)), xSpinBox, SLOT(selectionChangeFinishedX(const QRectF&)));
         connect(image, SIGNAL(selectionChangeFinished(const QRectF&)), ySpinBox, SLOT(selectionChangeFinishedY(const QRectF&)));

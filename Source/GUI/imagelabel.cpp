@@ -63,7 +63,7 @@ void ImageLabel::updatePixmap(const QImage& image /*= NULL*/)
     }
     else
     {
-        auto picture = *Picture;
+        FFmpeg_Glue* picture = *Picture;
 
         QImage Image = image;
         if (Image.isNull())
@@ -82,7 +82,7 @@ void ImageLabel::updatePixmap(const QImage& image /*= NULL*/)
             return;
         }
 
-        Pixmap.convertFromImage(Image);
+        Pixmap = QPixmap::fromImage(Image);
         uilabel->setPixmap(Pixmap);
     }
 }
@@ -123,9 +123,10 @@ void ImageLabel::moveSelectionX(double value)
         return;
     }
 
-    QSignalBlocker blocker(selectionArea);
+    selectionArea->blockSignals(true);
     geometry.moveTopLeft(QPoint(scaledX, geometry.topLeft().y()));
     selectionArea->setGeometry(geometry);
+    selectionArea->blockSignals(false);
 }
 
 void ImageLabel::moveSelectionY(double value)
@@ -145,9 +146,10 @@ void ImageLabel::moveSelectionY(double value)
         return;
     }
 
-    QSignalBlocker blocker(selectionArea);
+    selectionArea->blockSignals(true);
     geometry.moveTopLeft(QPoint(geometry.topLeft().x(), scaledY));
     selectionArea->setGeometry(geometry);
+    selectionArea->blockSignals(false);
 }
 
 void ImageLabel::changeSelectionWidth(double value)
@@ -168,12 +170,13 @@ void ImageLabel::changeSelectionWidth(double value)
         return;
     }
 
-    QSignalBlocker blocker(selectionArea);
+    selectionArea->blockSignals(true);
 
     qDebug() << "width changed: value = " << value << ", old width = " << geometry.width() << ", new width = " << width;
 
     geometry.setWidth(width);
     selectionArea->setGeometry(geometry);
+    selectionArea->blockSignals(false);
 }
 
 void ImageLabel::changeSelectionHeight(double value)
@@ -194,12 +197,13 @@ void ImageLabel::changeSelectionHeight(double value)
         return;
     }
 
-    QSignalBlocker blocker(selectionArea);
+    selectionArea->blockSignals(true);
 
     qDebug() << "height changed: value = " << value << ", old height = " << geometry.height() << ", new height = " << height;
 
     geometry.setHeight(height);
     selectionArea->setGeometry(geometry);
+    selectionArea->blockSignals(false);
 }
 
 void ImageLabel::setMaxSelectionWidth(double w)
@@ -245,7 +249,7 @@ void ImageLabel::setSelectionArea(double x, double y, double w, double h)
     int width = (w * scaledWidth / originalWidth);
     int height = (h * scaledHeight / originalHeight);
 
-    QSignalBlocker blocker(selectionArea);
+    selectionArea->blockSignals(true);
 
     int maxScaledSelectionWidth = maxSelectionAreaSize.width() * scaledWidth / originalWidth;
     int maxScaledSelectionHeight = maxSelectionAreaSize.height() * scaledHeight / originalHeight;
@@ -259,16 +263,19 @@ void ImageLabel::setSelectionArea(double x, double y, double w, double h)
 
     QRect geometry(scaledX, scaledY, width, height);
     selectionArea->setGeometry(geometry);
+    selectionArea->blockSignals(false);
 }
 
 void ImageLabel::clearSelectionArea()
 {
     selectionPos.setX(0); selectionPos.setY(0); selectionSize.setWidth(0); selectionSize.setHeight(0);
 
-    QSignalBlocker blocker(selectionArea);
+    selectionArea->blockSignals(true);
 
     selectionArea->setMaxSize(0, 0);
     selectionArea->setGeometry(QRect(0, 0, 0, 0));
+
+    selectionArea->blockSignals(false);
 }
 
 void ImageLabel::showDebugOverlay(bool enable)
@@ -478,7 +485,7 @@ void ImageLabel::rescale(const QSize& newSize /*= QSize()*/ )
         return;
     }
 
-    Pixmap.convertFromImage(QImage(image.data(), image.width(), image.height(), image.linesize(), QImage::Format_RGB888));
+    Pixmap = QPixmap::fromImage(QImage(image.data(), image.width(), image.height(), image.linesize(), QImage::Format_RGB888));
     uilabel->setGeometry(0, 0, Pixmap.width(), Pixmap.height());
     uilabel->setPixmap(Pixmap);
 

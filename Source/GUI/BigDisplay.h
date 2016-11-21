@@ -119,9 +119,9 @@ public:
 
     // Content
     Control*                    ControlArea;
-    
+
     void InitPicture();
-    
+
 protected:
     // File information
     FileInformation*            FileInfoData;

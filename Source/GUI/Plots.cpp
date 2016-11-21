@@ -409,10 +409,10 @@ void showEditFrameCommentsDialog(QWidget* parentWidget, FileInformation* info, C
         return;
 
     static QString replacePattern = "<br ***>";
-    static QString htmlEscapedPattern = replacePattern.toHtmlEscaped();
+    static QString htmlEscapedPattern = replacePattern.replace("<", "&lt;").replace(">", "&gt;");
 
     textValue = dialog.textValue().replace("\n", replacePattern);
-    textValue = textValue.toHtmlEscaped();
+    textValue = textValue.replace("<", "&lt;").replace(">", "&gt;");
     textValue = textValue.replace(htmlEscapedPattern, "\n");
 
     if(result == QDialogButtonBox::DestructiveRole || textValue.isEmpty())

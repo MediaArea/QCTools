@@ -797,13 +797,13 @@ FileInformation::SignalServerCheckUploadedStatus FileInformation::signalServerCh
         switch(checkFileUploadedOperation->state())
         {
         case CheckFileUploadedOperation::Unknown:
-            return SignalServerCheckUploadedStatus::Checking;
+            return Checking;
         case CheckFileUploadedOperation::Uploaded:
-            return SignalServerCheckUploadedStatus::Uploaded;
+            return Uploaded;
         case CheckFileUploadedOperation::NotUploaded:
-            return SignalServerCheckUploadedStatus::NotUploaded;
+            return NotUploaded;
         case CheckFileUploadedOperation::Error:
-            return SignalServerCheckUploadedStatus::CheckError;
+            return CheckError;
         }
     }
 
@@ -841,11 +841,11 @@ FileInformation::SignalServerUploadStatus FileInformation::signalServerUploadSta
         switch(uploadOperation->state())
         {
         case UploadFileOperation::Uploading:
-            return SignalServerUploadStatus::Uploading;
+            return Uploading;
         case UploadFileOperation::Uploaded:
-            return SignalServerUploadStatus::Done;
+            return Done;
         case UploadFileOperation::Error:
-            return SignalServerUploadStatus::UploadError;
+            return UploadError;
         }
     }
 
@@ -936,7 +936,7 @@ void FileInformation::checkFileUploadedDone()
 void FileInformation::upload(const QFileInfo& fileInfo)
 {
     QString fullName = fileInfo.filePath();
-    QSharedPointer<QFile> file = QSharedPointer<QFile>::create(fullName);
+    QSharedPointer<QFile> file(new QFile(fullName));
     if(file->open(QIODevice::ReadOnly))
     {
         upload(file, fileInfo.fileName());
@@ -971,7 +971,7 @@ void FileInformation::uploadDone()
 
 void FileInformation::parsingDone(bool success)
 {
-    if(m_autoUpload && signalServerCheckUploadedStatus() == SignalServerCheckUploadedStatus::NotUploaded)
+    if(m_autoUpload && signalServerCheckUploadedStatus() == NotUploaded)
     {
         qDebug() << "parsing done: " << success;
 

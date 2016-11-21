@@ -23,7 +23,11 @@ public:
 		hitLeft = 7, 
 		hitMiddle = 8
 	};
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+    Q_ENUM(TrackerHit);
+#else
     Q_ENUMS(TrackerHit);
+#endif
 
 public Q_SLOTS:
     void setMaxSize(int width, int height);

@@ -68,6 +68,8 @@ public Q_SLOTS:
     void setCurrentFrame(size_t frame);
     void rewind(int frame);
 
+    void requestInterruption();
+
 public:
     // To update
     TinyDisplay*                TinyDisplayArea;
