@@ -30,8 +30,15 @@ extern "C"
 #include <QXmlStreamWriter>
 using namespace tinyxml2;
 
+template<typename T> static std::string to_string(T value) {
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(6) << value;
+
+    return stream.str();
+}
+
 static std::string rational_to_string(AVRational r, char sep) {
-    return std::to_string(r.num).append(1, sep).append(std::to_string(r.den));
+    return to_string(r.num).append(1, sep).append(to_string(r.den));
 }
 
 static CommonStreamStats::Metadata extractMetadata(AVDictionary *tags)
@@ -63,7 +70,7 @@ CommonStreamStats::CommonStreamStats(XMLElement *streamElement) :
 {
     const char* stream_index_value = streamElement->Attribute("index");
     if(stream_index_value)
-        stream_index = std::stoi(stream_index_value);
+        stream_index = (int) strtol(stream_index_value, (char**) NULL, 10);
 
     const char* codec_name_value = streamElement->Attribute("codec_name");
     if(codec_name_value)
@@ -75,7 +82,7 @@ CommonStreamStats::CommonStreamStats(XMLElement *streamElement) :
 
     const char* codec_tag_value = streamElement->Attribute("codec_tag");
     if(codec_tag_value)
-        codec_tag = std::stoi(codec_tag_value, 0, 16);
+        codec_tag = (int) strtol(codec_tag_value, (char**) NULL, 16);
 
     const char* r_frame_rate_value = streamElement->Attribute("r_frame_rate");
     if(r_frame_rate_value)
@@ -136,7 +143,7 @@ CommonStreamStats::CommonStreamStats(XMLElement *streamElement) :
         {
             const char* value = dispositionElement->Attribute(dispositionAttributes[i]);
             if(value) {
-                disposition |= (std::stoi(value) == 1 ? dispositionFlags[i] : 0);
+                disposition |= ((int) strtol(value, (char**) NULL, 10) == 1 ? dispositionFlags[i] : 0);
             }
         }
     }
@@ -165,8 +172,8 @@ CommonStreamStats::CommonStreamStats(AVStream* stream) :
     r_frame_rate(stream != NULL ? rational_to_string(stream->r_frame_rate, '/') : ""),
     avg_frame_rate(stream != NULL ? rational_to_string(stream->avg_frame_rate, '/') : ""),
     time_base(stream != NULL ? rational_to_string(stream->time_base, '/') : ""),
-    start_pts(stream != NULL ? std::to_string(stream->start_time) : ""),
-    start_time(stream != NULL ? std::to_string(stream->start_time * av_q2d(stream->time_base)) : ""),
+    start_pts(stream != NULL ? to_string(stream->start_time) : ""),
+    start_time(stream != NULL ? to_string(stream->start_time * av_q2d(stream->time_base)) : ""),
     codec_time_base(stream ? rational_to_string(stream->codec->time_base, '/') : ""),
     disposition(stream ? stream->disposition : 0),
     metadata(stream ? extractMetadata(stream->metadata) : Metadata())
@@ -323,8 +330,8 @@ void CommonStreamStats::writeDispositionInfoToXML(QXmlStreamWriter *writer)
 
 void CommonStreamStats::writeMetadataToXML(QXmlStreamWriter *writer)
 {
-    Metadata::const_iterator it = metadata.cbegin();
-    for(; it != metadata.cend(); ++it)
+    Metadata::const_iterator it = metadata.begin();
+    for(; it != metadata.end(); ++it)
     {
         writer->writeStartElement("tag");
         writer->writeAttribute("key", QString::fromStdString(it->first) );

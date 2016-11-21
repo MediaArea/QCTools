@@ -47,8 +47,15 @@ std::string field_order_to_string(AVFieldOrder field_order) {
         return "unknown";
 }
 
+template<typename T> static std::string to_string(T value) {
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(6) << value;
+
+    return stream.str();
+}
+
 static std::string rational_to_string(AVRational r, char sep) {
-    return std::to_string(r.num).append(1, sep).append(std::to_string(r.den));
+    return to_string(r.num).append(1, sep).append(to_string(r.den));
 }
 
 VideoStreamStats::VideoStreamStats(XMLElement *streamElement) : CommonStreamStats(streamElement)
@@ -101,17 +108,17 @@ VideoStreamStats::VideoStreamStats(XMLElement *streamElement) : CommonStreamStat
 }
 
 VideoStreamStats::VideoStreamStats(AVStream* stream, AVFormatContext *context) : CommonStreamStats(stream),
-    width(stream != NULL ? std::to_string(stream->codecpar->width) : ""),
-    height(stream != NULL ? std::to_string(stream->codecpar->height) : ""),
-    coded_width(stream != NULL ? std::to_string(stream->codec->coded_width) : ""),
-    coded_height(stream != NULL ? std::to_string(stream->codec->coded_height) : ""),
-    has_b_frames(stream != NULL ? std::to_string(stream->codecpar->video_delay) : ""),
+    width(stream != NULL ? to_string(stream->codecpar->width) : ""),
+    height(stream != NULL ? to_string(stream->codecpar->height) : ""),
+    coded_width(stream != NULL ? to_string(stream->codec->coded_width) : ""),
+    coded_height(stream != NULL ? to_string(stream->codec->coded_height) : ""),
+    has_b_frames(stream != NULL ? to_string(stream->codecpar->video_delay) : ""),
     sample_aspect_ratio(""),
     display_aspect_ratio(""),
     pix_fmt(""),
-    level(stream != NULL ? std::to_string(stream->codecpar->level) : ""),
+    level(stream != NULL ? to_string(stream->codecpar->level) : ""),
     field_order(stream != NULL ? field_order_to_string(stream->codecpar->field_order) : ""),
-    refs(stream != NULL ? std::to_string(stream->codec->refs) : "")
+    refs(stream != NULL ? to_string(stream->codec->refs) : "")
 {
     if(stream != NULL)
     {

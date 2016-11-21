@@ -5,7 +5,7 @@
 #include <cassert>
 
 CMarkdown::
-CMarkdown()
+CMarkdown() : str_(), len_(0), pos_(0), debug_(false), rootBlock_(NULL)
 {
 }
 
@@ -63,7 +63,7 @@ bool
 CMarkdown::
 getLink(const QString &ref, LinkRef &link) const
 {
-  auto p = links_.find(ref);
+  std::map<QString,LinkRef>::const_iterator p = links_.find(ref);
 
   if (p == links_.end())
     return false;
@@ -95,21 +95,23 @@ readLine(QString &line)
 
 CMarkdownBlock::
 CMarkdownBlock(CMarkdown *markdown) :
- markdown_(markdown), parent_(0), type_(BlockType::DOCUMENT)
+ markdown_(markdown), parent_(0), type_(DOCUMENT), processed_(false), currentLine_(0), rootBlock_(NULL), currentBlock_(NULL)
 {
 }
 
 CMarkdownBlock::
 CMarkdownBlock(CMarkdownBlock *parent, BlockType type) :
- markdown_(0), parent_(parent), type_(type)
+ markdown_(0), parent_(parent), type_(type), processed_(false), currentLine_(0), rootBlock_(NULL), currentBlock_(NULL)
 {
 }
 
 CMarkdownBlock::
 ~CMarkdownBlock()
 {
-  for (auto &b : blocks_)
-    delete b;
+  Blocks::iterator b;
+  for (b = blocks_.begin(); b != blocks_.end(); b++) {
+    delete (*b);
+  }
 }
 
 void
@@ -187,9 +189,9 @@ processLines()
     else if (isStartCodeFence(line1.line, fence)) {
       flushBlocks();
 
-      CMarkdownBlock *block = startBlock(BlockType::PRE);
+      CMarkdownBlock *block = startBlock(PRE);
 
-      startBlock(BlockType::CODE);
+      startBlock(CODE);
 
       LineData line2;
 
@@ -208,7 +210,7 @@ processLines()
     else if (isRule(line1.line)) {
       endBlock();
 
-      CMarkdownBlock *block = startBlock(BlockType::HR);
+      CMarkdownBlock *block = startBlock(HR);
 
       endBlock();
 
@@ -238,9 +240,9 @@ processLines()
     else if (isUnorderedListLine(line1.line, list)) {
       endBlock();
 
-      CMarkdownBlock *block = startBlock(BlockType::UL);
+      CMarkdownBlock *block = startBlock(UL);
 
-      startBlock(BlockType::LI);
+      startBlock(LI);
 
       addBlockLine(list.text);
 
@@ -260,13 +262,13 @@ processLines()
           if (bl > 0) {
             endBlock();
 
-            startBlock(BlockType::LI);
+            startBlock(LI);
           }
 
           if (list1.indent >= list.indent && list1.c == list.c) {
             endBlock();
 
-            startBlock(BlockType::LI);
+            startBlock(LI);
 
             addBlockLine(list1.text);
           }
@@ -297,9 +299,9 @@ processLines()
     else if (isOrderedListLine(line1.line, list)) {
       endBlock();
 
-      CMarkdownBlock *block = startBlock(BlockType::OL);
+      CMarkdownBlock *block = startBlock(OL);
 
-      startBlock(BlockType::LI);
+      startBlock(LI);
 
       addBlockLine(list.text);
 
@@ -320,13 +322,13 @@ processLines()
             // add empty list item
             endBlock();
 
-            startBlock(BlockType::LI);
+            startBlock(LI);
           }
 
           if (list1.indent >= list.indent && list1.c == list.c) {
             endBlock();
 
-            startBlock(BlockType::LI);
+            startBlock(LI);
 
             addBlockLine(list1.text);
           }
@@ -368,9 +370,9 @@ processLines()
     else if (isIndentLine(line1.line, indent)) {
       flushBlocks();
 
-      CMarkdownBlock *block = startBlock(BlockType::PRE);
+      CMarkdownBlock *block = startBlock(PRE);
 
-      startBlock(BlockType::CODE);
+      startBlock(CODE);
 
       addBlockLine(line1.line.mid(indent));
 
@@ -393,7 +395,7 @@ processLines()
       html += block->toHtml();
     }
     else if (isBlockQuote(line1.line, text)) {
-      CMarkdownBlock *block = startBlock(BlockType::BLOCKQUOTE);
+      CMarkdownBlock *block = startBlock(BLOCKQUOTE);
 
       addBlockLine(text);
 
@@ -419,7 +421,7 @@ processLines()
       html += block->toHtml();
     }
     else if (isTableLine(line1.line)) {
-      CMarkdownBlock *block = startBlock(BlockType::TABLE);
+      CMarkdownBlock *block = startBlock(TABLE);
 
       parseTableLine(line1.line);
 
@@ -441,7 +443,7 @@ processLines()
     else {
       endBlock();
 
-      CMarkdownBlock *block = startBlock(BlockType::P);
+      CMarkdownBlock *block = startBlock(P);
 
       addBlockLine(line1.line, line1.brk);
 
@@ -583,12 +585,12 @@ isATXHeader(const QString &str, CMarkdownBlock::BlockType &type, QString &text) 
     return false;
 
   // get header type
-  if      (nh == 1) type = CMarkdownBlock::BlockType::H1;
-  else if (nh == 2) type = CMarkdownBlock::BlockType::H2;
-  else if (nh == 3) type = CMarkdownBlock::BlockType::H3;
-  else if (nh == 4) type = CMarkdownBlock::BlockType::H4;
-  else if (nh == 5) type = CMarkdownBlock::BlockType::H5;
-  else if (nh == 6) type = CMarkdownBlock::BlockType::H6;
+  if      (nh == 1) type = CMarkdownBlock::H1;
+  else if (nh == 2) type = CMarkdownBlock::H2;
+  else if (nh == 3) type = CMarkdownBlock::H3;
+  else if (nh == 4) type = CMarkdownBlock::H4;
+  else if (nh == 5) type = CMarkdownBlock::H5;
+  else if (nh == 6) type = CMarkdownBlock::H6;
 
   // skip spaces after '#'
   skipSpace(str, i);
@@ -644,7 +646,7 @@ isSetTextLine(const QString &str, CMarkdownBlock::BlockType &type) const
   if (i < len)
     return false;
 
-  type = (c == '=' ? CMarkdownBlock::BlockType::H1 : CMarkdownBlock::BlockType::H2);
+  type = (c == '=' ? CMarkdownBlock::H1 : CMarkdownBlock::H2);
 
   return true;
 }
@@ -1053,12 +1055,13 @@ parseTableLine(const QString &str)
   if (words.empty())
     return;
 
-  startBlock(BlockType::TR);
+  startBlock(TR);
 
-  for (const auto &word : words) {
-    startBlock(BlockType::TD);
+  Words::const_iterator w;
+  for (w = words.begin(); w != words.end(); w++) {
+    startBlock(TD);
 
-    addBlockLine(word);
+    addBlockLine(*w);
 
     endBlock();
   }
@@ -1677,15 +1680,18 @@ print(int depth) const
 
   std::cout << QString("-> %1").arg(tag).toStdString() << std::endl;
 
-  for (auto &l : lines_) {
+  Lines::const_iterator l;
+  for (l = lines_.begin(); l != lines_.end(); l++) {
     for (int i = 0; i < depth; ++i)
       std::cout << "  ";
 
-    std::cout << "  \"" << l.line.toStdString() << "\"" << std::endl;
+    std::cout << "  \"" << (*l).line.toStdString() << "\"" << std::endl;
   }
 
-  for (auto &b : blocks_)
-    b->print(depth + 1);
+    Blocks::const_iterator b;
+    for (b = blocks_.begin(); b != blocks_.end(); b++) {
+      (*b)->print(depth + 1);
+    }
 }
 
 QString
@@ -1728,7 +1734,8 @@ toHtml() const
 
       QString line1;
 
-      for (auto &line : lines_) {
+      Lines::const_iterator line;
+      for (line = lines_.begin(); line != lines_.end(); line++) {
         if (nl > 0) {
           if (brk)
             line1 += "\t";
@@ -1736,14 +1743,14 @@ toHtml() const
             line1 += "\n";
         }
 
-        line1 += line.line;
+        line1 += (*line).line;
 
-        brk = line.brk;
+        brk = (*line).brk;
 
         ++nl;
       }
 
-      if (type_ !=  BlockType::CODE)
+      if (type_ !=  CODE)
         line1 = replaceEmbeddedStyles(line1);
 
       QString line2;
@@ -1760,8 +1767,9 @@ toHtml() const
 
     int nb = 0;
 
-    for (auto &b : blocks_) {
-      html += b->toHtml();
+    Blocks::const_iterator b;
+    for (b = blocks_.begin(); b != blocks_.end(); b++) {
+      html += (*b)->toHtml();
 
       ++nb;
     }
@@ -1779,24 +1787,24 @@ QString
 CMarkdownBlock::
 tagName(BlockType type)
 {
-  if      (type == BlockType::DOCUMENT  ) return "document";
-  else if (type == BlockType::P         ) return "p";
-  else if (type == BlockType::BLOCKQUOTE) return "blockquote";
-  else if (type == BlockType::H1        ) return "h1";
-  else if (type == BlockType::H2        ) return "h2";
-  else if (type == BlockType::H3        ) return "h3";
-  else if (type == BlockType::H4        ) return "h4";
-  else if (type == BlockType::H5        ) return "h5";
-  else if (type == BlockType::H6        ) return "h6";
-  else if (type == BlockType::UL        ) return "ul";
-  else if (type == BlockType::OL        ) return "ol";
-  else if (type == BlockType::LI        ) return "li";
-  else if (type == BlockType::PRE       ) return "pre";
-  else if (type == BlockType::CODE      ) return "code";
-  else if (type == BlockType::TABLE     ) return "table";
-  else if (type == BlockType::TR        ) return "tr";
-  else if (type == BlockType::TD        ) return "td";
-  else if (type == BlockType::HR        ) return "hr";
+  if      (type == DOCUMENT  ) return "document";
+  else if (type == P         ) return "p";
+  else if (type == BLOCKQUOTE) return "blockquote";
+  else if (type == H1        ) return "h1";
+  else if (type == H2        ) return "h2";
+  else if (type == H3        ) return "h3";
+  else if (type == H4        ) return "h4";
+  else if (type == H5        ) return "h5";
+  else if (type == H6        ) return "h6";
+  else if (type == UL        ) return "ul";
+  else if (type == OL        ) return "ol";
+  else if (type == LI        ) return "li";
+  else if (type == PRE       ) return "pre";
+  else if (type == CODE      ) return "code";
+  else if (type == TABLE     ) return "table";
+  else if (type == TR        ) return "tr";
+  else if (type == TD        ) return "td";
+  else if (type == HR        ) return "hr";
   else                                    return "??";
 }
 
@@ -1804,15 +1812,15 @@ bool
 CMarkdownBlock::
 isSingleLineType(BlockType type)
 {
-  if      (type == BlockType::H1) return true;
-  else if (type == BlockType::H2) return true;
-  else if (type == BlockType::H3) return true;
-  else if (type == BlockType::H4) return true;
-  else if (type == BlockType::H5) return true;
-  else if (type == BlockType::H6) return true;
-  else if (type == BlockType::LI) return true;
-  else if (type == BlockType::HR) return true;
-  else if (type == BlockType::P ) return true;
+  if      (type == H1) return true;
+  else if (type == H2) return true;
+  else if (type == H3) return true;
+  else if (type == H4) return true;
+  else if (type == H5) return true;
+  else if (type == H6) return true;
+  else if (type == LI) return true;
+  else if (type == HR) return true;
+  else if (type == P ) return true;
 
   return false;
 }
@@ -1821,11 +1829,11 @@ bool
 CMarkdownBlock::
 isRecurseType(BlockType type)
 {
-  if      (type == BlockType::DOCUMENT  ) return true;
-  else if (type == BlockType::BLOCKQUOTE) return true;
-  else if (type == BlockType::LI        ) return true;
-  else if (type == BlockType::PRE       ) return true;
-  else if (type == BlockType::TABLE     ) return true;
+  if      (type == DOCUMENT  ) return true;
+  else if (type == BLOCKQUOTE) return true;
+  else if (type == LI        ) return true;
+  else if (type == PRE       ) return true;
+  else if (type == TABLE     ) return true;
 
   return false;
 }

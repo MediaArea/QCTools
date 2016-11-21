@@ -23,7 +23,7 @@ public:
     QDialogButtonBox* buttons() const;
 
 protected:
-    void keyPressEvent(QKeyEvent *event) override;
+    void keyPressEvent(QKeyEvent *event);
 
 private Q_SLOTS:
     void on_buttonBox_clicked(QAbstractButton* button);

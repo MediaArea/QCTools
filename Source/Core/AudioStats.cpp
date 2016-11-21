@@ -73,13 +73,13 @@ void AudioStats::StatsFromExternalData(const char* Data, size_t Size)
                     {
                         const char* stream_index_value = Frame->Attribute("stream_index");
                         if(stream_index_value)
-                            streamIndex = std::stoi(stream_index_value);
+                            streamIndex = (int) strtol(stream_index_value, (char**) NULL, 10);
 
                         if (x_Current >= Data_Reserved)
                             Data_Reserve(x_Current);
 
                         const char* Attribute;
-                            
+
                         x[0][x_Current]=x_Current;
 
                         Attribute=Frame->Attribute("pkt_duration_time");
@@ -217,7 +217,7 @@ void AudioStats::StatsFromFrame (struct AVFrame* Frame, int, int)
         if (j<Item_AudioMax)
         {
             y[j][x_Current]=std::atof(e->value);
-                                            
+
             if (PerItem[j].Group1!=Group_AudioMax && y_Max[PerItem[j].Group1]<y[j][x_Current])
                 y_Max[PerItem[j].Group1]=y[j][x_Current];
             if (PerItem[j].Group2!=Group_AudioMax && y_Max[PerItem[j].Group2]<y[j][x_Current])

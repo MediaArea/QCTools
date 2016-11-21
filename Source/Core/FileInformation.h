@@ -14,6 +14,7 @@
 #include "Core/SignalServer.h"
 
 #include <string>
+#include <vector>
 
 #include <QThread>
 #include <QFile>

@@ -38,10 +38,10 @@ StreamsStats::StreamsStats(AVFormatContext *context)
             switch (context->streams[pos]->codec->codec_type)
             {
                 case AVMEDIA_TYPE_VIDEO:
-                    streams.push_back(std::unique_ptr<VideoStreamStats>(new VideoStreamStats(context->streams[pos], context)));
+                    streams.push_back(new VideoStreamStats(context->streams[pos], context));
                     break;
                 case AVMEDIA_TYPE_AUDIO:
-                    streams.push_back(std::unique_ptr<AudioStreamStats>(new AudioStreamStats(context->streams[pos], context)));
+                    streams.push_back(new AudioStreamStats(context->streams[pos], context));
                     break;
                 default:
                     qDebug() << "only Audio / Video streams are supported for now.. skipping stream of index = " << pos << " and of type = " << context->streams[pos]->codec->codec_type;
@@ -52,7 +52,10 @@ StreamsStats::StreamsStats(AVFormatContext *context)
 
 StreamsStats::~StreamsStats()
 {
-
+    for(std::list<CommonStreamStatsPtr>::const_iterator it = streams.begin(); it != streams.end(); ++it)
+    {
+        delete (*it);
+    }
 }
 
 bool StreamsStats::readFromXML(const char *data, size_t size)
@@ -74,9 +77,9 @@ bool StreamsStats::readFromXML(const char *data, size_t size)
                 if(codec_type)
                 {
                     if(strcmp(codec_type, "video") == 0)
-                        streams.push_back(std::unique_ptr<VideoStreamStats>(new VideoStreamStats(streamElement)));
+                        streams.push_back(new VideoStreamStats(streamElement));
                     else if(strcmp(codec_type, "audio") == 0)
-                        streams.push_back(std::unique_ptr<AudioStreamStats>(new AudioStreamStats(streamElement)));
+                        streams.push_back(new AudioStreamStats(streamElement));
                 }
 
                 streamElement = streamElement->NextSiblingElement();
@@ -90,7 +93,7 @@ bool StreamsStats::readFromXML(const char *data, size_t size)
 void StreamsStats::writeToXML(QXmlStreamWriter *writer)
 {
     writer->writeStartElement("streams");
-    for(std::list<CommonStreamStatsPtr>::const_iterator it = streams.cbegin(); it != streams.cend(); ++it)
+    for(std::list<CommonStreamStatsPtr>::const_iterator it = streams.begin(); it != streams.end(); ++it)
     {
         (*it)->writeToXML(writer);
     }

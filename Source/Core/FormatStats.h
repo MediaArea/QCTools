@@ -53,7 +53,7 @@ public:
     int getProbe_score() const;
     void setProbe_score(int value);
 
-    typedef std::list<std::pair<std::string, std::string>> Metadata;
+    typedef std::list<std::pair<std::string, std::string> > Metadata;
     const Metadata& getMetadata() const;
     void setMetadata(const Metadata &value);
 
@@ -74,4 +74,4 @@ private:
     Metadata metadata;
 };
 
-#endif // 
+#endif //

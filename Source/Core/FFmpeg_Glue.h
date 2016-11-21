@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include <QByteArray>
 #include <QMutex>
+#include <QSharedPointer>
 using namespace std;
 
 struct AVFormatContext;
@@ -50,13 +51,13 @@ public:
     FFmpeg_Glue(const string &FileName, activealltracks ActiveAllTracks, std::vector<CommonStats*>* Stats, StreamsStats** streamsStats, FormatStats** formatStats, bool WithStats=false);
     ~FFmpeg_Glue();
 
-    typedef std::shared_ptr<AVFrame> AVFramePtr;
+    typedef QSharedPointer<AVFrame> AVFramePtr;
 
     struct Image {
         Image();
 
         bool isNull() const {
-            return frame == NULL;
+            return frame.isNull();
         }
 
         const uchar* data() const;
