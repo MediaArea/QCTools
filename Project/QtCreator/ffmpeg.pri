@@ -21,4 +21,14 @@ macx:contains(DEFINES, USE_BREW) {
                  -L$$FFMPEG_PATH/libswscale -lswscale \
                  -L$$FFMPEG_PATH/libavcodec -lavcodec \
                  -L$$FFMPEG_PATH/libavutil -lavutil
+
+    win32 {
+        contains(QMAKE_TARGET.arch, x86_64) {
+            LIBS += -L$$FFMPEG_PATH/../freetype/objs/vc2010/x64 -lfreetype271
+        } else {
+            LIBS += -L$$FFMPEG_PATH/../freetype/objs/vc2010/Win32 -lfreetype271
+        }
+    } else {
+        LIBS += -L$$FFMPEG_PATH/../freetype/usr/lib -lfreetype
+    }
 }

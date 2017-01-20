@@ -5,8 +5,8 @@ RequestExecutionLevel admin
 ; Some defines
 !define PRODUCT_NAME "QCTools"
 !define PRODUCT_PUBLISHER "MediaArea.net"
-!define PRODUCT_VERSION "0.8.0"
-!define PRODUCT_VERSION4 "${PRODUCT_VERSION}.0"
+!define PRODUCT_VERSION "0.8"
+!define PRODUCT_VERSION4 "${PRODUCT_VERSION}.0.0"
 !define PRODUCT_WEB_SITE "http://www.bavc.org/qctools"
 !define COMPANY_REGISTRY "Software\MediaArea.net"
 !define PRODUCT_REGISTRY "Software\MediaArea.net\QCTools"
@@ -82,11 +82,8 @@ Section "SectionPrincipale" SEC01
   SetOutPath "$SMPROGRAMS"
   CreateShortCut "$SMPROGRAMS\QCTools.lnk" "$INSTDIR\QCTools.exe" "" "$INSTDIR\QCTools.exe" 0 "" "" "QCTools"
   SetOutPath "$INSTDIR"
-  !ifndef STATIC
-    File "..\..\Project\MSVC2015\Release\QCTools.exe"
-  !else
-    File "..\..\Project\MSVC2015\StaticRelease\QCTools.exe"
-  !endif
+  File "..\..\Project\QtCreator\qctools-gui\release\QCTools.exe"
+  File "..\..\Project\QtCreator\qctools-cli\release\qcli.exe"
   File "..\..\History.txt"
   File "..\..\License.html"
   !ifndef STATIC
@@ -138,6 +135,7 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\QCTools.exe"
+  Delete "$INSTDIR\qcli.exe"
   Delete "$INSTDIR\History.txt"
   Delete "$INSTDIR\License.html"
   !ifndef STATIC

@@ -9,15 +9,30 @@ _install_yasm(){
     mv yasm-1.3.0 yasm
 }
 
+if [ ! -d freetype ] ; then
+    wget https://downloads.sf.net/project/freetype/freetype2/2.7.1/freetype-2.7.1.tar.bz2
+    tar jxf freetype-2.7.1.tar.bz2
+    mv freetype-2.7.1 freetype
+fi
+
+if sw_vers >/dev/null 2>&1 ; then
+    export CFLAGS="$CFLAGS -mmacosx-version-min=10.5"
+    export CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.5"
+fi
+
+cd freetype
+chmod u+x configure
+./configure --prefix="`pwd`/usr" --without-zlib --without-bzip2 --without-png --without-harfbuzz --enable-static --disable-shared
+make
+make install
+cd ..
+
 if [ ! -d ffmpeg ] ; then
     git clone --depth 1 git://source.ffmpeg.org/ffmpeg.git ffmpeg
 fi
 
     cd ffmpeg
-    FFMPEG_CONFIGURE_OPTS=(--enable-gpl --enable-version3 --disable-securetransport --disable-videotoolbox --disable-shared --enable-static --disable-doc --disable-ffplay --disable-ffprobe --disable-ffserver --disable-debug --disable-lzma --disable-iconv --enable-pic)
-    if sw_vers >/dev/null 2>&1 ; then
-        FFMPEG_CONFIGURE_OPTS+=(--extra-cflags="-mmacosx-version-min=10.5" --extra-ldflags="-mmacosx-version-min=10.5")
-    fi
+    FFMPEG_CONFIGURE_OPTS=(--enable-gpl --enable-version3 --disable-programs --disable-securetransport --disable-videotoolbox --disable-shared --enable-static --disable-doc --disable-ffplay --disable-ffprobe --disable-ffserver --disable-debug --disable-lzma --disable-iconv --enable-pic --enable-libfreetype --extra-cflags=-I../freetype/include)
     chmod u+x configure
     chmod u+x version.sh
     if yasm --version >/dev/null 2>&1 ; then

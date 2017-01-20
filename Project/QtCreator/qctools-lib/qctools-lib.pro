@@ -2,9 +2,9 @@ QT = core network
 
 TARGET = qctools
 TEMPLATE = lib
-CONFIG += c++11
 CONFIG += staticlib
 
+include(../utils.pri)
 include(../brew.pri)
 include(../ffmpeg.pri)
 
@@ -16,6 +16,8 @@ message("qctools-lib: THIRD_PARTY_PATH = " $$absolute_path($$THIRD_PARTY_PATH))
 
 INCLUDEPATH += $$SOURCES_PATH
 INCLUDEPATH += $$SOURCES_PATH/ThirdParty/tinyxml2
+
+win32: INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtZlib
 
 QMAKE_CXXFLAGS += -DWITH_SYSTEM_FFMPEG=1
 
@@ -59,10 +61,6 @@ SOURCES = \
     $$SOURCES_PATH/Core/SignalServerConnectionChecker.cpp \
     $$SOURCES_PATH/Core/SignalServer.cpp \
     $$SOURCES_PATH/Core/Preferences.cpp
-
-win32 {
-    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/../src/qtbase/src/3rdparty/zlib
-}
 
 include(../blackmagic.pri)
 include($$SOURCES_PATH/ThirdParty/qblowfish/qblowfish.pri)

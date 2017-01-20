@@ -1,6 +1,6 @@
 Format: 1.0
 Source: qctools
-Binary: qctools, qctools-dbg
+Binary: qctools, qctools-dbg, qcli, qcli-dbg
 Architecture: any
 Version: 0.8-1
 Maintainer: MediaArea.net SARL <info@mediaarea.net>

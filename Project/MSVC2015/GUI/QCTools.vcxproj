@@ -99,7 +99,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../../ffmpeg;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;../../../../Blackmagic DeckLink SDK\Win\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../Source/ThirdParty/qblowfish;../../../Source/ThirdParty/cqmarkdown;../../../../ffmpeg;../../../../Qt/include/QtNetwork;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;../../../../Blackmagic DeckLink SDK\Win\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
       <MinimalRebuild>false</MinimalRebuild>
@@ -108,7 +108,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../../../Qt/lib;../../../../qwt/lib;../../../../ffmpeg/libavformat;../../../../ffmpeg/libavcodec;../../../../ffmpeg/libavfilter;../../../../ffmpeg/libswscale;../../../../ffmpeg/libavutil;../../../../zlib/contrib/vstudio/vc14/x86/ZlibStat$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qwtd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Xmld.lib;Qt5Widgetsd.lib;Qt5PlatformSupportd.lib;Qt5Networkd.lib;Qt5PrintSupportd.lib;qtmaind.lib;avformat.lib;avcodec.lib;avfilter.lib;swscale.lib;avutil.lib;winmm.lib;ws2_32.lib;imm32.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qwtd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Xmld.lib;Qt5Widgetsd.lib;Qt5PlatformSupportd.lib;Qt5Networkd.lib;Qt5PrintSupportd.lib;qtmaind.lib;avformat.lib;avcodec.lib;avfilter.lib;swscale.lib;avutil.lib;winmm.lib;ws2_32.lib;imm32.lib;Iphlpapi.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <ResourceCompile>
@@ -119,7 +119,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../../ffmpeg;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;../../../../Blackmagic DeckLink SDK\Win\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../Source/ThirdParty/qblowfish;../../../Source/ThirdParty/cqmarkdown;../../../../ffmpeg;../../../../Qt/include/QtNetwork;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;../../../../Blackmagic DeckLink SDK\Win\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4018</DisableSpecificWarnings>
       <MinimalRebuild>false</MinimalRebuild>
@@ -128,7 +128,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../../../Qt/lib;../../../../qwt/lib;../../../../ffmpeg/libavformat;../../../../ffmpeg/libavcodec;../../../../ffmpeg/libavfilter;../../../../ffmpeg/libswscale;../../../../ffmpeg/libavutil;../../../../zlib/contrib/vstudio/vc14/x86/ZlibStat$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qwtd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Xmld.lib;Qt5Widgetsd.lib;Qt5PlatformSupportd.lib;Qt5Networkd.lib;Qt5PrintSupportd.lib;qtmaind.lib;avformat.lib;avcodec.lib;avfilter.lib;swscale.lib;avutil.lib;winmm.lib;ws2_32.lib;imm32.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qwtd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Xmld.lib;Qt5Widgetsd.lib;Qt5PlatformSupportd.lib;Qt5Networkd.lib;Qt5PrintSupportd.lib;qtmaind.lib;avformat.lib;avcodec.lib;avfilter.lib;swscale.lib;avutil.lib;winmm.lib;ws2_32.lib;imm32.lib;Iphlpapi.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <ResourceCompile>
@@ -141,7 +141,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../../ffmpeg;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../Source/ThirdParty/qblowfish;../../../Source/ThirdParty/cqmarkdown;../../../../ffmpeg;../../../../Qt/include/QtNetwork;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -149,7 +149,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../../../Qt/lib;../../../../Qt/plugins/platforms;../../../../qwt/lib;../../../../ffmpeg/bin;../../../../zlib/contrib/vstudio/vc14/x86/ZlibStatRelease;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qwt.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Xml.lib;Qt5Widgets.lib;Qt5PlatformSupport.lib;Qt5Network.lib;Qt5PrintSupport.lib;qtmain.lib;avformat.lib;avcodec.lib;avfilter.lib;swscale.lib;avutil.lib ;winmm.lib;ws2_32.lib;secur32.lib;imm32.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qwt.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Xml.lib;Qt5Widgets.lib;Qt5PlatformSupport.lib;Qt5Network.lib;Qt5PrintSupport.lib;qtmain.lib;avformat.lib;avcodec.lib;avfilter.lib;swscale.lib;avutil.lib ;winmm.lib;ws2_32.lib;secur32.lib;imm32.lib;Iphlpapi.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -159,7 +159,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../../ffmpeg;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../Source/ThirdParty/qblowfish;../../../Source/ThirdParty/cqmarkdown;../../../../ffmpeg;../../../../Qt/include/QtNetwork;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -167,7 +167,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../../../Qt/lib;../../../../Qt/plugins/platforms;../../../../qwt/lib;../../../../ffmpeg/bin;../../../../zlib/contrib/vstudio/vc14/x64/ZlibStatRelease;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qwt.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Xml.lib;Qt5Widgets.lib;Qt5PlatformSupport.lib;Qt5Network.lib;Qt5PrintSupport.lib;qtmain.lib;avformat.lib;avcodec.lib;avfilter.lib;swscale.lib;avutil.lib ;winmm.lib;ws2_32.lib;secur32.lib;imm32.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qwt.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Xml.lib;Qt5Widgets.lib;Qt5PlatformSupport.lib;Qt5Network.lib;Qt5PrintSupport.lib;qtmain.lib;avformat.lib;avcodec.lib;avfilter.lib;swscale.lib;avutil.lib ;winmm.lib;ws2_32.lib;secur32.lib;imm32.lib;Iphlpapi.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -177,7 +177,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../../ffmpeg;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../Source/ThirdParty/qblowfish;../../../Source/ThirdParty/cqmarkdown;../../../../ffmpeg;../../../../Qt/include/QtNetwork;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -185,7 +185,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../../../Qt/lib;../../../../Qt/plugins/platforms;../../../../qwt/lib;../../../../ffmpeg/lib;../../../../zlib/contrib/vstudio/vc14/x86/ZlibStatRelease;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qwt.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Xml.lib;Qt5Widgets.lib;Qt5PlatformSupport.lib;Qt5Network.lib;Qt5PrintSupport.lib;qtmain.lib;qwindows.lib;qtpcre.lib;qtfreetype.lib;qtharfbuzzng.lib;libavformat.a;libavcodec.a;libavfilter.a;libswscale.a;libswresample.a;libpostproc.a;libavutil.a;winmm.lib;ws2_32.lib;secur32.lib;imm32.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qwt.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Xml.lib;Qt5Widgets.lib;Qt5PlatformSupport.lib;Qt5Network.lib;Qt5PrintSupport.lib;qtmain.lib;qwindows.lib;qtpcre.lib;qtfreetype.lib;qtharfbuzzng.lib;libavformat.a;libavcodec.a;libavfilter.a;libswscale.a;libswresample.a;libpostproc.a;libavutil.a;winmm.lib;ws2_32.lib;secur32.lib;imm32.lib;Iphlpapi.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -195,7 +195,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../../ffmpeg;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../Source;../../../Source/ThirdParty/tinyxml2;../../../Source/ThirdParty/qblowfish;../../../Source/ThirdParty/cqmarkdown;../../../../ffmpeg;../../../../Qt/include/QtNetwork;../../../../Qt/include/QtGui;../../../../Qt/include/QtWidgets;../../../../Qt/include/QtCore;../../../../Qt/include;./;../../../../qwt/src;./_Automated;../../../../Qt/include/QtPrintSupport;../../../../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -203,7 +203,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../../../Qt/lib;../../../../Qt/plugins/platforms;../../../../qwt/lib;../../../../ffmpeg/lib;../../../../zlib/contrib/vstudio/vc14/x64/ZlibStatRelease;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qwt.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Xml.lib;Qt5Widgets.lib;Qt5PlatformSupport.lib;Qt5Network.lib;Qt5PrintSupport.lib;qtmain.lib;qwindows.lib;qtpcre.lib;qtfreetype.lib;qtharfbuzzng.lib;libavformat.a;libavcodec.a;libavfilter.a;libswscale.a;libswresample.a;libpostproc.a;libavutil.a;winmm.lib;ws2_32.lib;secur32.lib;imm32.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qwt.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Xml.lib;Qt5Widgets.lib;Qt5PlatformSupport.lib;Qt5Network.lib;Qt5PrintSupport.lib;qtmain.lib;qwindows.lib;qtpcre.lib;qtfreetype.lib;qtharfbuzzng.lib;libavformat.a;libavcodec.a;libavfilter.a;libswscale.a;libswresample.a;libpostproc.a;libavutil.a;winmm.lib;ws2_32.lib;secur32.lib;imm32.lib;Iphlpapi.lib;zlibstat.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -218,6 +218,10 @@
     <ClCompile Include="..\..\..\Source\Core\TimeCode.cpp" />
     <ClCompile Include="..\..\..\Source\Core\VideoCore.cpp" />
     <ClCompile Include="..\..\..\Source\Core\VideoStats.cpp" />
+    <ClCompile Include="..\..\..\Source\Core\CommonStreamStats.cpp" />
+    <ClCompile Include="..\..\..\Source\Core\AudioStreamStats.cpp" />
+    <ClCompile Include="..\..\..\Source\Core\VideoStreamStats.cpp" />
+    <ClCompile Include="..\..\..\Source\Core\StreamsStats.cpp" />
     <ClCompile Include="..\..\..\Source\GUI\config.cpp" />
     <ClCompile Include="..\..\..\Source\GUI\Control.cpp" />
     <ClCompile Include="..\..\..\Source\GUI\blackmagicdecklink_userinput.cpp" />
@@ -240,7 +244,11 @@
     <ClCompile Include="..\..\..\Source\GUI\TinyDisplay.cpp" />
     <ClCompile Include="..\..\..\Source\GUI\SelectionArea.cpp" />
     <ClCompile Include="..\..\..\Source\GUI\Plots.cpp" />
+    <ClCompile Include="..\..\..\Source\GUI\SignalServerConnectionChecker.cpp" />
+    <ClCompile Include="..\..\..\Source\GUI\SignalServer.cpp" />
     <ClCompile Include="..\..\..\Source\ThirdParty\tinyxml2\tinyxml2.cpp" />
+    <ClCompile Include="..\..\..\Source\ThirdParty\qblowfish\qblowfish.cpp" />
+    <ClCompile Include="..\..\..\Source\ThirdParty\cqmarkdown\CMarkdown.cpp" />
     <ClCompile Include="DeckLinkAPI_i.c" />
     <ClCompile Include="_Automated\moc_Control.cpp" />
     <ClCompile Include="_Automated\moc_blackmagicdecklink_userinput.cpp" />
@@ -259,6 +267,8 @@
     <ClCompile Include="_Automated\moc_Imagelabel.cpp" />
     <ClCompile Include="_Automated\moc_TinyDisplay.cpp" />
     <ClCompile Include="_Automated\moc_SelectionArea.cpp" />
+    <ClCompile Include="_Automated\moc_SignalServerConnectionChecker.cpp" />
+    <ClCompile Include="_Automated\moc_SignalServer.cpp" />
     <ClCompile Include="_Automated\qrc_Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +282,10 @@
     <ClInclude Include="..\..\..\Source\Core\TimeCode.h" />
     <ClInclude Include="..\..\..\Source\Core\VideoCore.h" />
     <ClInclude Include="..\..\..\Source\Core\VideoStats.h" />
+    <ClInclude Include="..\..\..\Source\Core\CommonStreamStats.h" />
+    <ClInclude Include="..\..\..\Source\Core\AudioStreamStats.h" />
+    <ClInclude Include="..\..\..\Source\Core\VideoStreamStats.h" />
+    <ClInclude Include="..\..\..\Source\Core\StreamsStats.h" />
     <ClInclude Include="..\..\..\Source\GUI\config.h" />
     <ClInclude Include="..\..\..\Source\GUI\Control.h" />
     <ClInclude Include="..\..\..\Source\GUI\blackmagicdecklink_userinput.h" />
@@ -290,7 +304,12 @@
     <ClInclude Include="..\..\..\Source\GUI\preferences.h" />
     <ClInclude Include="..\..\..\Source\GUI\TinyDisplay.h" />
     <ClInclude Include="..\..\..\Source\GUI\SelectionArea.h" />
+    <ClInclude Include="..\..\..\Source\GUI\SignalServerConnectionChecker.h" />
+    <ClInclude Include="..\..\..\Source\GUI\SignalServer.h" />
     <ClInclude Include="..\..\..\Source\ThirdParty\tinyxml2\tinyxml2.h" />
+    <ClInclude Include="..\..\..\Source\ThirdParty\qblowfish\qblowfish.h" />
+    <ClInclude Include="..\..\..\Source\ThirdParty\qblowfish\qblowfish_p.h" />
+    <ClInclude Include="..\..\..\Source\ThirdParty\cqmarkdown\CMarkdown.h" />
     <ClInclude Include="DeckLinkAPI_h.h" />
     <ClInclude Include="_Automated\ui_blackmagicdecklink_userinput.h" />
     <ClInclude Include="_Automated\ui_mainwindow.h" />

@@ -27,11 +27,6 @@ else
     exit
 fi
 
-if [ ! $(which cmake) ] ; then
-    echo cmake not found
-    exit
-fi
-
 SCRIPT_DIR=$(cd $(dirname "$0") && pwd)
 echo "SCRIPT_DIR: " + $SCRIPT_DIR
 

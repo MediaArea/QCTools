@@ -1,4 +1,7 @@
 mkdir _Automated
+
+set QCTOOLS_USE_BLACKMAGIC=true
+
 ..\..\..\..\Qt\bin\qmake ..\..\QtCreator\QCTools.pro > nul
 nmake /NOLOGO /f Makefile.debug compiler_uic_make_all compiler_rcc_make_all mocables
 
