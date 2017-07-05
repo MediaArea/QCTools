@@ -6,7 +6,6 @@
 #include <QDialog>
 #include <QList>
 #include <QUrl>
-#include <tuple>
 
 namespace Ui {
 class Preferences;
@@ -25,8 +24,8 @@ public:
     activefilters ActiveFilters;
     activealltracks ActiveAllTracks;
 
-    QList<std::tuple<int, int>> loadFilterSelectorsOrder();
-    void saveFilterSelectorsOrder(const QList<std::tuple<int, int>>& order);
+    QList<QPair<int, int> > loadFilterSelectorsOrder();
+    void saveFilterSelectorsOrder(const QList<QPair<int, int> >& order);
 
     bool isSignalServerEnabled() const;
     bool isSignalServerAutoUploadEnabled() const;

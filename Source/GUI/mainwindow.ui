@@ -77,9 +77,6 @@
     <property name="title">
      <string>File</string>
     </property>
-    <property name="toolTipsVisible">
-     <bool>false</bool>
-    </property>
     <addaction name="actionOpen"/>
     <addaction name="actionClose"/>
     <addaction name="actionCloseAll"/>
@@ -132,9 +129,6 @@
    <widget class="QMenu" name="menuExport">
     <property name="title">
      <string>Export</string>
-    </property>
-    <property name="toolTipsVisible">
-     <bool>true</bool>
     </property>
     <addaction name="actionExport_XmlGz_Prompt"/>
     <addaction name="actionExport_XmlGz_Sidecar"/>

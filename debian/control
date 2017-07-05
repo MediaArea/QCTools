@@ -42,3 +42,40 @@ Description: QCTools
  the digital object, and the associated catalog record.
  .
  This package contains the debugging symbols.
+
+Package: qcli
+Section: utils
+Architecture: any
+Depends: libqtcore4
+Description: QCTools Command Line Interface
+ .
+ QCTools (Quality Control Tools for Video Preservation) is a free and open source software tool
+ that helps users analyze and understand their digitized video files through use of audiovisual analytics and filtering
+ to help users detect corruptions or compromises in the results of analog video digitization or in born-digital video.
+ The goal of the project is to cut down the time it takes to perform high-quality video preservation
+ and direct time towards preservation issues that are solvable - for example, identifying tapes
+ that would benefit from a second transfer, saving not only the precious time of preservationists
+ and institutional resources, but giving collections a necessary advantage in the bigger race against time
+ to preserve their significant cultural artifacts. QCTools incorporates archival standards and best practices
+ for reformatting and capturing metadata that enables the long-term preservation of and access to the original artifact,
+ the digital object, and the associated catalog record.
+
+Package: qcli-dbg
+Section: debug
+Architecture: any
+Priority: extra
+Depends: qctools (= ${binary:Version})
+Description: QCTools Command Line Interface
+ .
+ QCTools (Quality Control Tools for Video Preservation) is a free and open source software tool
+ that helps users analyze and understand their digitized video files through use of audiovisual analytics and filtering
+ to help users detect corruptions or compromises in the results of analog video digitization or in born-digital video.
+ The goal of the project is to cut down the time it takes to perform high-quality video preservation
+ and direct time towards preservation issues that are solvable - for example, identifying tapes
+ that would benefit from a second transfer, saving not only the precious time of preservationists
+ and institutional resources, but giving collections a necessary advantage in the bigger race against time
+ to preserve their significant cultural artifacts. QCTools incorporates archival standards and best practices
+ for reformatting and capturing metadata that enables the long-term preservation of and access to the original artifact,
+ the digital object, and the associated catalog record.
+ .
+ This package contains the debugging symbols.

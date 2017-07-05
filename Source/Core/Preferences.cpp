@@ -69,7 +69,7 @@ void Preferences::setActiveAllTracks(const activealltracks &alltracks)
 FilterSelectorsOrder Preferences::loadFilterSelectorsOrder()
 {
     QSettings settings;
-    auto order = settings.value(KeyFilterSelectorsOrder, QVariant::fromValue(FilterSelectorsOrder())).value<FilterSelectorsOrder>();
+    FilterSelectorsOrder order = settings.value(KeyFilterSelectorsOrder, QVariant::fromValue(FilterSelectorsOrder())).value<FilterSelectorsOrder>();
     return order;
 }
 
@@ -172,12 +172,12 @@ QDataStream &operator<<(QDataStream &out, const FilterSelectorsOrder &order) {
 
     qDebug() << "serializing total " << order.length() << ": \n";
 
-    for(auto item : order) {
-        qDebug() << "g: " << std::get<0>(item) << ", t: " << std::get<1>(item);;
+    for(FilterSelectorsOrder::const_iterator item = order.begin(); item != order.end(); ++item) {
+        qDebug() << "g: " << item->first << ", t: " << item->second;;
     }
 
-    for(auto filterInfo : order)
-        out << std::get<0>(filterInfo) << std::get<1>(filterInfo);
+    for(FilterSelectorsOrder::const_iterator filterInfo = order.begin(); filterInfo != order.end(); ++filterInfo)
+        out << filterInfo->first << filterInfo->second;
 
     return out;
 }
@@ -189,15 +189,15 @@ QDataStream &operator>>(QDataStream &in, FilterSelectorsOrder &order) {
         in >> group;
         in >> type;
 
-        auto entry = std::make_tuple(group, type);
+        QPair<int, int> entry = QPair<int,int>(group, type);
         if(!order.contains(entry))
             order.push_back(entry);
     }
 
     qDebug() << "deserialized: total " << order.length() << "\n";
 
-    for(auto item : order) {
-        qDebug() << "g: " << std::get<0>(item) << ", t: " << std::get<1>(item);
+    for(FilterSelectorsOrder::const_iterator item = order.begin(); item != order.end(); ++item) {
+        qDebug() << "g: " << item->first << ", t: " << item->second;
     }
 
     return in;

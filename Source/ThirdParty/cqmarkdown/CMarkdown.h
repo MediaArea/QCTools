@@ -35,12 +35,12 @@ class CMarkdown {
  private:
   typedef std::vector<CMarkdownBlock *> Blocks;
 
-  QString str_ {   }; // input string
-  int     len_ { 0 }; // input string length
-  int     pos_ { 0 }; // input string position
+  QString str_; // input string
+  int     len_; // input string length
+  int     pos_; // input string position
 
-  bool            debug_ { false };
-  CMarkdownBlock *rootBlock_ { 0 };
+  bool            debug_;
+  CMarkdownBlock *rootBlock_;
   Links           links_;
 };
 
@@ -48,7 +48,7 @@ class CMarkdown {
 
 class CMarkdownBlock {
  public:
-  enum class BlockType {
+  enum BlockType {
     ROOT,
     DOCUMENT,
     BLOCKQUOTE,
@@ -72,28 +72,39 @@ class CMarkdownBlock {
 
   struct CodeFence {
     QChar   c;
-    int     n { 0 };
+    int     n;
     QString info;
+
+    CodeFence() : n(0) {
+    }
   };
 
   struct LineData {
     QString line;
-    int     indent { 0 };
-    bool    brk    { false };
-    bool    blank  { true };
+    int     indent;
+    bool    brk;
+    bool    blank;
+
+    LineData() : indent(0), brk(false), blank(true) {
+    }
   };
 
   struct ListData {
-    int     indent { 0 };
-    int     n { 0 };
+    int     indent;
+    int     n;
     QChar   c;
     QString text;
+
+    ListData() : indent(0), n(0) {
+    }
   };
 
   struct Line {
     QString line;
-    bool    brk { false };
+    bool    brk;
 
+    Line() : brk(false) {
+    }
     Line(const QString &line1, bool brk1=false) :
      line(line1), brk(brk1) {
     }
@@ -199,19 +210,19 @@ class CMarkdownBlock {
  private:
   typedef std::vector<CMarkdownBlock *> Blocks;
 
-  CMarkdown*      markdown_ { 0 };
-  CMarkdownBlock* parent_ { 0 };
-  BlockType       type_ { BlockType::ROOT };
+  CMarkdown*      markdown_;
+  CMarkdownBlock* parent_;
+  BlockType       type_;
   Lines           lines_;
   Blocks          blocks_;
   QString         html_;
   QString         id_;
-  bool            processed_ { false };
+  bool            processed_;
 
-  mutable int currentLine_ { 0 };
+  mutable int currentLine_;
 
-  CMarkdownBlock *rootBlock_    { 0 };
-  CMarkdownBlock *currentBlock_ { 0 };
+  CMarkdownBlock *rootBlock_;
+  CMarkdownBlock *currentBlock_;
 };
 
 #endif

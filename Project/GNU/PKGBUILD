@@ -1,7 +1,7 @@
 # $Id$
 # Maintainer: MediaArea.net SARL <info@mediaarea.net>
 
-pkgname=qctools
+pkgname=('qctools' 'qcli')
 pkgver=0.8
 pkgrel=1
 pkgdesc="QCTools (Quality Control Tools for Video Preservation)"
@@ -18,8 +18,9 @@ build() {
     ./Project/BuildAllFromSource/build
 }
 
-package() {
-    install -D -m 0755 "${srcdir}"/qctools/qctools/Project/QtCreator/QCTools "${pkgdir}"/usr/bin/QCTools
+package_qctools() {
+    pkgdesc="${pkgdesc}"
+    install -D -m 0755 "${srcdir}"/qctools/qctools/Project/QtCreator/qctools-gui/QCTools "${pkgdir}"/usr/bin/QCTools
     install -D -m 0644 "${srcdir}"/qctools/qctools/Source/Resource/Logo.png "${pkgdir}"/usr/share/icons/hicolor/256x256/apps/qctools.png
     install -D -m 0644 "${srcdir}"/qctools/qctools/Source/Resource/Logo.png "${pkgdir}"/usr/share/pixmaps/qctools.png
     install -D -m 0644 "${srcdir}"/qctools/qctools/Project/GNU/GUI/qctools.desktop "${pkgdir}"/usr/share/applications/qctools.desktop
@@ -27,3 +28,7 @@ package() {
     install -D -m 0644 "${srcdir}"/qctools/qctools/Project/GNU/GUI/qctools.kde4.desktop "${pkgdir}"/usr/share/kde4/services/ServiceMenus/qctools.desktop
 }
 
+package_qcli() {
+    pkgdesc="${pkgdesc} (CLI)"
+    install -D -m 0755 "${srcdir}"/qctools/qctools/Project/QtCreator/qctools-cli/qcli "${pkgdir}"/usr/bin/qcli
+}

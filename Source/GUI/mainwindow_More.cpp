@@ -75,11 +75,11 @@ void MainWindow::openCapture()
         DeckRunning=false;
         return;
     }
-        
+
     BlackmagicDeckLink_UserInput* blackmagicDeckLink_UserInput=new BlackmagicDeckLink_UserInput();
     if (!blackmagicDeckLink_UserInput->exec())
         return;
-    
+
     clearFiles();
     addFile(blackmagicDeckLink_UserInput->Card, blackmagicDeckLink_UserInput->Card->Config_In.FrameCount, blackmagicDeckLink_UserInput->Encoding_FileName.toUtf8().data(), blackmagicDeckLink_UserInput->Encoding_Format.toUtf8().data());
     addFile_finish();
@@ -92,7 +92,7 @@ bool MainWindow::canCloseFile(size_t index)
 {
     if(Files[index]->commentsUpdated())
     {
-        auto result = QMessageBox::warning(this, "Comments has been updated!",
+        int result = QMessageBox::warning(this, "Comments has been updated!",
                                            "This report contains unsaved comments. If you close before saving, your changes will be lost.",
                                            QMessageBox::Cancel | QMessageBox::Close, QMessageBox::Cancel);
         return result == QMessageBox::Close;
@@ -357,7 +357,7 @@ void MainWindow::createGraphsLayout()
 
     PlotsArea=Files[Files_CurrentPos]->Stats.empty()?NULL:new Plots(this, Files[Files_CurrentPos]);
 
-    auto filtersInfo = Prefs->loadFilterSelectorsOrder();
+    QList<QPair<int, int> > filtersInfo = Prefs->loadFilterSelectorsOrder();
     changeFilterSelectorsOrder(filtersInfo);
     if (PlotsArea)
     {
@@ -376,7 +376,7 @@ void MainWindow::createGraphsLayout()
     ControlArea=new Control(this, Files[Files_CurrentPos]);
     ControlArea->setPlayAllFrames(ui->actionPlay_All_Frames->isChecked());
 
-    connect( ControlArea, SIGNAL( currentFrameChanged() ), 
+    connect( ControlArea, SIGNAL( currentFrameChanged() ),
         this, SLOT( on_CurrentFrameChanged() ) );
 
     if (!ui->actionGraphsLayout->isChecked())

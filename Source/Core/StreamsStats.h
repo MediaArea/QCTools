@@ -22,7 +22,7 @@ class CommonStreamStats;
 class StreamsStats {
 
 public:
-    typedef std::unique_ptr<CommonStreamStats> CommonStreamStatsPtr;
+    typedef CommonStreamStats* CommonStreamStatsPtr;
 
     StreamsStats(AVFormatContext* context = NULL);
     ~StreamsStats();

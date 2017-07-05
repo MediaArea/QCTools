@@ -34,24 +34,28 @@
 
 #include "GUI/draggablechildrenbehaviour.h"
 
+#if defined(__APPLE__) && QT_VERSION < 0x050400
+#include <CoreFoundation/CFURL.h>
+#endif
+
 //***************************************************************************
 // Constructor / Desructor
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-QList<std::tuple<int, int>> MainWindow::getFilterSelectorsOrder(int start = 0, int end = -1)
+QList<QPair<int, int> > MainWindow::getFilterSelectorsOrder(int start = 0, int end = -1)
 {
-    QList<std::tuple<int, int>> filtersInfo;
+    QList<QPair<int, int> > filtersInfo;
     if(end == -1)
         end = ui->horizontalLayout->count() - 1;
 
     for(int i = start; i <= end; ++i)
     {
-        auto o = ui->horizontalLayout->itemAt(i)->widget();
-        auto group = o->property("group").toInt();
-        auto type = o->property("type").toInt();
+        QWidget* o = ui->horizontalLayout->itemAt(i)->widget();
+        int group = o->property("group").toInt();
+        int type = o->property("type").toInt();
 
-        filtersInfo.push_back(std::make_tuple(group, type));
+        filtersInfo.push_back(qMakePair(group, type));
     }
 
     return filtersInfo;
@@ -103,24 +107,7 @@ MainWindow::MainWindow(QWidget *parent) :
     DeckRunning=false;
 
     draggableBehaviour = new DraggableChildrenBehaviour(ui->horizontalLayout);
-    connect(draggableBehaviour, &DraggableChildrenBehaviour::childPositionChanged, [&](QWidget* child, int oldPos, int newPos) {
-
-        Q_UNUSED(child);
-
-        int start = oldPos;
-        int end = newPos;
-
-        if(oldPos > newPos)
-        {
-            start = newPos;
-            end = oldPos;
-        }
-
-        QList<std::tuple<int, int>> filtersSelectors = getFilterSelectorsOrder();
-
-        if(PlotsArea)
-            PlotsArea->changeOrder(filtersSelectors);
-    });
+    connect(draggableBehaviour, SIGNAL(childPositionChanged(QWidget*, int, int)), this, SLOT(positionChanged(QWidget*, int, int)));
 }
 
 //---------------------------------------------------------------------------
@@ -559,7 +546,27 @@ void MainWindow::dropEvent(QDropEvent *Event)
         QList<QUrl> urls=Event->mimeData()->urls();
         for (int Pos=0; Pos<urls.size(); Pos++)
         {
+#if defined(__APPLE__) && QT_VERSION < 0x050400
+            if (urls[Pos].url().startsWith("file:///.file/id="))
+            {
+                CFErrorRef Error = 0;
+                CFURLRef Cfurl = urls[Pos].toCFURL();
+                CFURLRef Absurl = CFURLCreateFilePathURL(kCFAllocatorDefault, Cfurl, &Error);
+
+                if(Error)
+                    continue;
+
+                addFile(QUrl::fromCFURL(Absurl).toLocalFile());
+                CFRelease(Cfurl);
+                CFRelease(Absurl);
+            }
+            else
+            {
+                addFile(urls[Pos].toLocalFile());
+            }
+#else
             addFile(urls[Pos].toLocalFile());
+#endif
         }
     }
 
@@ -592,7 +599,7 @@ void MainWindow::on_actionUploadToSignalServer_triggered()
         {
             QString statsFileName = file->fileName() + ".qctools.xml.gz";
             QFileInfo info(statsFileName);
-            if(info.exists(statsFileName))
+            if(info.exists())
             {
                 file->upload(info);
             }
@@ -621,9 +628,9 @@ void MainWindow::on_actionUploadToSignalServerAll_triggered()
         {
             QString statsFileName = file->fileName() + ".qctools.xml.gz";
             QFileInfo info(statsFileName);
-            if(info.exists(statsFileName))
+            if(info.exists())
             {
-                file->upload(statsFileName);
+                file->upload(info);
             }
             else
             {
@@ -794,6 +801,26 @@ void MainWindow::updateSignalServerUploadStatus()
 void MainWindow::updateSignalServerUploadProgress(qint64 value, qint64 total)
 {
     ui->actionSignalServer_status->setText(QString("Uploading: %1 / %2").arg(value).arg(total));
+
+}
+
+void MainWindow::positionChanged(QWidget* child, int oldPos, int newPos)
+{
+    Q_UNUSED(child);
+
+    int start = oldPos;
+    int end = newPos;
+
+    if(oldPos > newPos)
+    {
+        start = newPos;
+        end = oldPos;
+    }
+
+    QList<QPair<int, int> > filtersSelectors = getFilterSelectorsOrder();
+
+    if(PlotsArea)
+        PlotsArea->changeOrder(filtersSelectors);
 }
 
 void MainWindow::on_actionNavigateNextComment_triggered()
@@ -801,8 +828,8 @@ void MainWindow::on_actionNavigateNextComment_triggered()
     if (Files_CurrentPos>=Files.size())
         return;
 
-    auto framesCount = Files[Files_CurrentPos]->Glue->VideoFrameCount_Get();
-    auto currentPos = Files[Files_CurrentPos]->Frames_Pos_Get();
+    size_t framesCount = Files[Files_CurrentPos]->Glue->VideoFrameCount_Get();
+    int currentPos = Files[Files_CurrentPos]->Frames_Pos_Get();
     while(++currentPos < framesCount)
     {
         if(Files[Files_CurrentPos]->ReferenceStat()->comments[currentPos])
@@ -819,7 +846,7 @@ void MainWindow::on_actionNavigatePreviousComment_triggered()
     if (Files_CurrentPos>=Files.size())
         return;
 
-    auto currentPos = Files[Files_CurrentPos]->Frames_Pos_Get();
+    int currentPos = Files[Files_CurrentPos]->Frames_Pos_Get();
     while(--currentPos >= 0)
     {
         if(Files[Files_CurrentPos]->ReferenceStat()->comments[currentPos])

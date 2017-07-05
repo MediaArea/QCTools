@@ -20,7 +20,7 @@ BEGIN
             VALUE "CompanyName", "MediaArea.net"
             VALUE "FileDescription", "QCTools"
             VALUE "FileVersion", "0.8.0.0"
-            VALUE "InternalName", "QCTools - GUI - MSVC 2017"
+            VALUE "InternalName", "QCTools - GUI"
             VALUE "LegalCopyright", "BAVC.org"
             VALUE "OriginalFilename", "QCTools.exe"
             VALUE "ProductName", "QCTools"

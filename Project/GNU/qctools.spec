@@ -34,6 +34,7 @@ BuildRequires:  update-desktop-files
 %if 0%{?suse_version} >= 1200
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Widgets)
+BuildRequires:  pkgconfig(Qt5Network)
 BuildRequires:  pkgconfig(Qt5Concurrent)
 BuildRequires:  pkgconfig(Qt5PrintSupport)
 %else
@@ -41,9 +42,13 @@ BuildRequires:  libqt4-devel
 %endif
 %endif
 
-%if 0%{?fedora}
+%if 0%{?fedora_version}
 BuildRequires:  pkgconfig(Qt5)
 BuildRequires:  desktop-file-utils
+%endif
+
+%if 0%{?fedora_version} == 99
+BuildRequires: gnu-free-sans-fonts
 %endif
 
 %if 0%{?mageia}
@@ -54,12 +59,33 @@ BuildRequires:  lib64bzip2-devel
 BuildRequires:  libqt5base5-devel
 BuildRequires:  libbzip2-devel
 %endif
+%if 0%{?mageia} > 5
+BuildRequires:  libproxy-pacrunner
+%endif
 BuildRequires:  sane-backends-iscan
 BuildRequires:  libuuid-devel
 %endif
 
+%package -n qcli
+Summary:	QCTools command line interface
+Group:		Applications/Multimedia
+
 %description
 QCTools (Quality Control Tools for Video Preservation)
+
+QCTools (Quality Control Tools for Video Preservation) is a free and open source software tool
+that helps users analyze and understand their digitized video files through use of audiovisual analytics and filtering
+to help users detect corruptions or compromises in the results of analog video digitization or in born-digital video.
+The goal of the project is to cut down the time it takes to perform high-quality video preservation
+and direct time towards preservation issues that are solvable - for example, identifying tapes
+that would benefit from a second transfer, saving not only the precious time of preservationists
+and institutional resources, but giving collections a necessary advantage in the bigger race against time 
+to preserve their significant cultural artifacts. QCTools incorporates archival standards and best practices
+for reformatting and capturing metadata that enables the long-term preservation of and access to the original artifact,
+the digital object, and the associated catalog record.
+
+%description -n qcli
+QCli - QCTools Command Line Interface
 
 QCTools (Quality Control Tools for Video Preservation) is a free and open source software tool
 that helps users analyze and understand their digitized video files through use of audiovisual analytics and filtering
@@ -83,10 +109,9 @@ pushd qctools
 popd
 
 %install
-pushd qctools/Project/QtCreator
-	install -dm 755 %{buildroot}%{_bindir}
-	install -m 755 QCTools %{buildroot}%{_bindir}
-popd
+install -dm 755 %{buildroot}%{_bindir}
+install -m 755 qctools/Project/QtCreator/qctools-gui/QCTools %{buildroot}%{_bindir}
+install -m 755 qctools/Project/QtCreator/qctools-cli/qcli %{buildroot}%{_bindir}
 
 # icon
 install -dm 755 %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
@@ -132,6 +157,10 @@ install -m 644 qctools/Project/GNU/GUI/qctools.kde4.desktop \
 %dir %{_datadir}/kde4/services/ServiceMenus
 %{_datadir}/kde4/services/ServiceMenus/*.desktop
 
+%files -n qcli
+%defattr(-,root,root,-)
+%doc qctools/License.html qctools/History.txt
+%{_bindir}/qcli
 
 %changelog
 * Wed Jan 01 2014 MediaArea.net SARL <info@mediaarea.net> - 0.5.0

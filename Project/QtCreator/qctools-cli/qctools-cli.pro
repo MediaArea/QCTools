@@ -1,14 +1,13 @@
 QT += core network
 QT -= gui
 
-CONFIG += c++11
-
 TARGET = qcli
 CONFIG += console
 CONFIG -= app_bundle
 
 TEMPLATE = app
 
+include(../utils.pri)
 include(../brew.pri)
 message("PWD = " $$PWD)
 
@@ -65,6 +64,10 @@ DEFINES += QT_DEPRECATED_WARNING
 unix {
     LIBS       += -ldl
     !macx:LIBS += -lrt
+}
+
+win32 {
+    LIBS += -lSecur32
 }
 
 macx:LIBS += -liconv \

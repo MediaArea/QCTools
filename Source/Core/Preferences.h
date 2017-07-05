@@ -11,11 +11,12 @@
 
 #include "Core/Core.h"
 
+#include <QMetaType>
 #include <QObject>
+#include <QPair>
 #include <QList>
-#include <tuple>
 
-typedef std::tuple<int, int> GroupAndType;
+typedef QPair<int, int> GroupAndType;
 typedef QList<GroupAndType> FilterSelectorsOrder;
 
 class Preferences : public QObject

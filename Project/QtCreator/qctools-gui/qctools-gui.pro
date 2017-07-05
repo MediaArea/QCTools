@@ -4,8 +4,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 TARGET = QCTools
 TEMPLATE = app
 
-CONFIG += c++11 qt no_keywords
+CONFIG += qt no_keywords
 
+win32: CONFIG+= resources_big
+
+win32:RC_FILE = QCTools.rc
+
+include(../utils.pri)
 include(../brew.pri)
 message("PWD = " $$PWD)
 
@@ -74,10 +79,6 @@ SOURCES += \
     $$SOURCES_PATH/GUI/config.cpp \
     $$SOURCES_PATH/GUI/draggablechildrenbehaviour.cpp \
     $$SOURCES_PATH/ThirdParty/cqmarkdown/CMarkdown.cpp
-
-win32 {
-    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/../src/qtbase/src/3rdparty/zlib
-}
 
 FORMS += \
     $$SOURCES_PATH/GUI/mainwindow.ui \
@@ -217,6 +218,19 @@ equals(USE_BLACKMAGIC, true) {
 unix {
     LIBS       += -ldl
     !macx:LIBS += -lrt
+}
+
+win32 {
+    LIBS += -lSecur32
+}
+
+macx:contains(MACSTORE, yes|1) {
+    QMAKE_CFLAGS += -gdwarf-2
+    QMAKE_CXXFLAGS += -gdwarf-2
+    QMAKE_INFO_PLIST = ../../Mac/Info.plist
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.8
+} else:macx {
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 }
 
 macx:ICON = $$SOURCES_PATH/Resource/Logo.icns

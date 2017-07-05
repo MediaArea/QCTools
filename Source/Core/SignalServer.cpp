@@ -55,7 +55,7 @@ QSharedPointer<CheckFileUploadedOperation> SignalServer::checkFileUploaded(const
     QUrl checkFileUploadedUrl = QUrl(m_url.toString() + "/fileuploads/check_exist/" + QUrl::toPercentEncoding(fileName));
     QSharedPointer<QNetworkReply> reply = get(checkFileUploadedUrl);
 
-    return QSharedPointer<CheckFileUploadedOperation>::create(fileName, reply);
+    return QSharedPointer<CheckFileUploadedOperation>(new CheckFileUploadedOperation(fileName, reply));
 }
 
 QSharedPointer<UploadFileOperation> SignalServer::uploadFile(const QString &fileName, QSharedPointer<QIODevice> data)
@@ -63,7 +63,7 @@ QSharedPointer<UploadFileOperation> SignalServer::uploadFile(const QString &file
     QUrl uploadFileUrl = QUrl(m_url.toString() + "/fileuploads/upload/" + QUrl::toPercentEncoding(fileName));
     QSharedPointer<QNetworkReply> reply = put(uploadFileUrl, data.data());
 
-    return QSharedPointer<UploadFileOperation>::create(fileName, data, reply);
+    return QSharedPointer<UploadFileOperation>(new UploadFileOperation(fileName, data, reply));
 }
 
 QSharedPointer<QNetworkReply> SignalServer::get(const QUrl& url)

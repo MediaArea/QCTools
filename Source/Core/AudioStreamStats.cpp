@@ -46,11 +46,11 @@ AudioStreamStats::AudioStreamStats(XMLElement *streamElement) : CommonStreamStat
 
     const char* sample_rate_value = streamElement->Attribute("sample_rate");
     if(sample_rate_value)
-        sample_rate = std::stoi(sample_rate_value);
+        sample_rate = (int) strtol(sample_rate_value, (char**) NULL, 10);
 
     const char* channels_value = streamElement->Attribute("channels");
     if(channels_value)
-        channels = std::stoi(channels_value);
+        channels = (int) strtol(channels_value, (char**) NULL, 10);
 
     const char* channel_layout_value = streamElement->Attribute("channel_layout");
     if(channel_layout_value)
@@ -58,11 +58,11 @@ AudioStreamStats::AudioStreamStats(XMLElement *streamElement) : CommonStreamStat
 
     const char* bits_per_sample_value = streamElement->Attribute("bits_per_sample");
     if(bits_per_sample_value)
-        bits_per_sample = std::stoi(bits_per_sample_value);
+        bits_per_sample = (int) strtol(bits_per_sample_value, (char**) NULL, 10);
 
     const char* bits_per_raw_sample_value = streamElement->Attribute("bits_per_raw_sample");
     if(bits_per_raw_sample_value)
-        bits_per_raw_sample = std::stoi(bits_per_raw_sample_value);
+        bits_per_raw_sample = (int) strtol(bits_per_raw_sample_value, (char**) NULL, 10);
 }
 
 AudioStreamStats::AudioStreamStats(AVStream* stream, AVFormatContext *context) : CommonStreamStats(stream),

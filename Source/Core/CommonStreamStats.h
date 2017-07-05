@@ -56,7 +56,7 @@ public:
     int getDisposition() const;
     void setDisposition(int value);
 
-    typedef std::list<std::pair<std::string, std::string>> Metadata;
+    typedef std::list<std::pair<std::string, std::string> > Metadata;
     const Metadata& getMetadata() const;
     void setMetadata(const Metadata &value);
 

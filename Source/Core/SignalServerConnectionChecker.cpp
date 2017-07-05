@@ -1,4 +1,5 @@
 #include "SignalServerConnectionChecker.h"
+#include <QtCore>
 #include <QNetworkReply>
 #include <cassert>
 #include <limits.h>

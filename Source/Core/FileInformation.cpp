@@ -506,7 +506,7 @@ void FileInformation::Export_XmlGz (const QString &ExportFileName, const activef
         {
             if(Stats[Pos]->Type_Get() == Type_Video && Glue)
             {
-                auto videoStats = static_cast<VideoStats*>(Stats[Pos]);
+                VideoStats* videoStats = static_cast<VideoStats*>(Stats[Pos]);
                 videoStats->setWidth(Glue->Width_Get());
                 videoStats->setHeight(Glue->Height_Get());
             }
@@ -625,7 +625,7 @@ int FileInformation::Frames_Count_Get (size_t Stats_Pos)
 {
     if (Stats_Pos==(size_t)-1)
         Stats_Pos=ReferenceStream_Pos_Get();
-    
+
     if (Stats_Pos>=Stats.size())
         return -1;
     return Stats[Stats_Pos]->x_Max[0];
@@ -659,7 +659,7 @@ int FileInformation::Frames_Pos_Get (size_t Stats_Pos)
     }
     else
         Pos=Frames_Pos;
-    
+
     return Pos;
 }
 
@@ -724,7 +724,7 @@ void FileInformation::Frames_Pos_Set (int Pos, size_t Stats_Pos)
                 break;
             }
     }
-    
+
     if (Pos<0)
         Pos=0;
     if (Pos>=ReferenceStat()->x_Current_Max)
@@ -770,7 +770,7 @@ qreal FileInformation::averageFrameRate() const
     if(!Glue)
         return 0;
 
-    auto splitted = QString::fromStdString(Glue->AvgVideoFrameRate_Get()).split("/");
+    QStringList splitted = QString::fromStdString(Glue->AvgVideoFrameRate_Get()).split("/");
     if(splitted.length() == 1)
         return splitted[0].toDouble();
 
@@ -797,13 +797,13 @@ FileInformation::SignalServerCheckUploadedStatus FileInformation::signalServerCh
         switch(checkFileUploadedOperation->state())
         {
         case CheckFileUploadedOperation::Unknown:
-            return SignalServerCheckUploadedStatus::Checking;
+            return Checking;
         case CheckFileUploadedOperation::Uploaded:
-            return SignalServerCheckUploadedStatus::Uploaded;
+            return Uploaded;
         case CheckFileUploadedOperation::NotUploaded:
-            return SignalServerCheckUploadedStatus::NotUploaded;
+            return NotUploaded;
         case CheckFileUploadedOperation::Error:
-            return SignalServerCheckUploadedStatus::CheckError;
+            return CheckError;
         }
     }
 
@@ -841,11 +841,11 @@ FileInformation::SignalServerUploadStatus FileInformation::signalServerUploadSta
         switch(uploadOperation->state())
         {
         case UploadFileOperation::Uploading:
-            return SignalServerUploadStatus::Uploading;
+            return Uploading;
         case UploadFileOperation::Uploaded:
-            return SignalServerUploadStatus::Done;
+            return Done;
         case UploadFileOperation::Error:
-            return SignalServerUploadStatus::UploadError;
+            return UploadError;
         }
     }
 
@@ -936,7 +936,7 @@ void FileInformation::checkFileUploadedDone()
 void FileInformation::upload(const QFileInfo& fileInfo)
 {
     QString fullName = fileInfo.filePath();
-    QSharedPointer<QFile> file = QSharedPointer<QFile>::create(fullName);
+    QSharedPointer<QFile> file(new QFile(fullName));
     if(file->open(QIODevice::ReadOnly))
     {
         upload(file, fileInfo.fileName());
@@ -971,7 +971,7 @@ void FileInformation::uploadDone()
 
 void FileInformation::parsingDone(bool success)
 {
-    if(m_autoUpload && signalServerCheckUploadedStatus() == SignalServerCheckUploadedStatus::NotUploaded)
+    if(m_autoUpload && signalServerCheckUploadedStatus() == NotUploaded)
     {
         qDebug() << "parsing done: " << success;
 

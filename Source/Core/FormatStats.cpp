@@ -24,6 +24,13 @@ extern "C"
 #include <QXmlStreamWriter>
 using namespace tinyxml2;
 
+template<typename T> static std::string to_string(T value) {
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(6) << value;
+
+    return stream.str();
+}
+
 static FormatStats::Metadata extractMetadata(AVDictionary *tags)
 {
     FormatStats::Metadata metadata;
@@ -52,13 +59,14 @@ FormatStats::FormatStats(AVFormatContext *context) :
     nb_programs(context != NULL ? context->nb_programs : 0),
     format_name(context != NULL ? context->iformat->name : ""),
     format_long_name(context != NULL ? context->iformat->long_name : ""),
-    start_time(context != NULL ? std::to_string( (context->start_time * av_q2d( {1, AV_TIME_BASE} )) ) : ""),
-    duration(context != NULL ? std::to_string( (context->duration * av_q2d( {1, AV_TIME_BASE} )) ) : ""),
     size(context != NULL ? (context->pb ? avio_size(context->pb) : -1) : -1),
     bit_rate(context != NULL ? (context->bit_rate > 0 ? context->bit_rate : -1) : -1),
     probe_score(context != NULL ? (av_format_get_probe_score(context)) : 0),
     metadata(context != NULL ? (extractMetadata(context->metadata)) : Metadata())
 {
+    AVRational a = {1, AV_TIME_BASE};
+    start_time = context != NULL ? to_string( (context->start_time * av_q2d( a )) ) : "";
+    duration = context != NULL ? to_string( (context->duration * av_q2d( a )) ) : "";
 
 }
 
@@ -88,8 +96,8 @@ void FormatStats::writeMetadataToXML(QXmlStreamWriter *writer)
 {
     assert(writer);
 
-    Metadata::const_iterator it = metadata.cbegin();
-    for(; it != metadata.cend(); ++it)
+    Metadata::const_iterator it = metadata.begin();
+    for(; it != metadata.end(); ++it)
     {
         writer->writeStartElement("tag");
         writer->writeAttribute("key", QString::fromStdString(it->first) );
@@ -207,11 +215,11 @@ bool FormatStats::readFromXML(const char *Data, size_t Size)
 
             const char* nb_streams = format->Attribute("nb_streams");
             if(nb_streams)
-                setNb_streams(std::stoi(nb_streams));
+                setNb_streams((int) strtol(nb_streams, (char**) NULL, 10));
 
             const char* nb_programs = format->Attribute("nb_programs");
             if(nb_programs)
-                setNb_programs(std::stoi(nb_programs));
+                setNb_programs((int) strtol(nb_programs, (char**) NULL, 10));
 
             const char* format_name = format->Attribute("format_name");
             if(format_name)
@@ -231,15 +239,15 @@ bool FormatStats::readFromXML(const char *Data, size_t Size)
 
             const char* size = format->Attribute("size");
             if(size)
-                setSize(std::stoi(size));
+                setSize((int) strtol(size, (char**) NULL, 10));
 
             const char* bit_rate = format->Attribute("bit_rate");
             if(bit_rate)
-                setBit_rate(std::stoi(bit_rate));
+                setBit_rate((int) strtol(bit_rate, (char**) NULL, 10));
 
             const char* probe_score = format->Attribute("probe_score");
             if(probe_score)
-                setProbe_score(std::stoi(probe_score));
+                setProbe_score((int) strtol(probe_score, (char**) NULL, 10));
 
             XMLElement* Tag=format->FirstChildElement();
             while (Tag)

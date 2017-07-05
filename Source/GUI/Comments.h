@@ -41,7 +41,7 @@ public:
     }
     QPointF sample(size_t i) const {
         int dataTypeIndex = pDataTypeIndex ? *pDataTypeIndex : 0;
-        return (stats->comments[i] != nullptr) ? QPointF(stats->x[dataTypeIndex][i], 1) : QPointF(stats->x[dataTypeIndex][i], 0);
+        return (stats->comments[i] != NULL) ? QPointF(stats->x[dataTypeIndex][i], 1) : QPointF(stats->x[dataTypeIndex][i], 0);
     }
 
 private:
@@ -67,7 +67,7 @@ private:
 class CommentsPlot : public QwtPlot {
     Q_OBJECT
 public:
-    CommentsPlot(FileInformation* fileInfo, CommonStats* stats, const int* dataTypeIndex = nullptr);
+    CommentsPlot(FileInformation* fileInfo, CommonStats* stats, const int* dataTypeIndex = NULL);
 
     int frameAt( double x ) const;
     void setCursorPos( double x );

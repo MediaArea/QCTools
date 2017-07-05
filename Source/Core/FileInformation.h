@@ -14,6 +14,7 @@
 #include "Core/SignalServer.h"
 
 #include <string>
+#include <vector>
 
 #include <QThread>
 #include <QFile>
@@ -107,7 +108,11 @@ public:
         CheckError
     };
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     Q_ENUM(SignalServerCheckUploadedStatus);
+#else
+    Q_ENUMS(SignalServerCheckUploadedStatus);
+#endif
 
     SignalServerCheckUploadedStatus signalServerCheckUploadedStatus() const;
     QString signalServerCheckUploadedStatusString() const;
@@ -120,7 +125,11 @@ public:
         UploadError
     };
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     Q_ENUM(SignalServerUploadStatus);
+#else
+    Q_ENUMS(SignalServerUploadStatus);
+#endif
 
     SignalServerUploadStatus signalServerUploadStatus() const;
     QString signalServerUploadStatusString() const;
@@ -191,5 +200,4 @@ private:
 
     activefilters m_exportFilters;
 };
-
 #endif // GUI_FileInformation_H

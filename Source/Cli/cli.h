@@ -14,9 +14,10 @@
 #include "Core/Preferences.h"
 #include "Core/FFmpeg_Glue.h"
 #include <QCoreApplication>
-#include <memory>
-#include <iostream>
+#include <QStringList>
 #include <QTimer>
+#include <iostream>
+#include <memory>
 
 enum Errors {
     Success = 0,
@@ -82,9 +83,9 @@ public slots:
     void onSignalServerUploadProgressChanged(qint64 written, qint64 total);
 
 private:
-    std::unique_ptr<FileInformation> info;
-    std::unique_ptr<ProgressBar> progress;
-    std::unique_ptr<SignalServer> signalServer;
+    QSharedPointer<FileInformation> info;
+    QSharedPointer<ProgressBar> progress;
+    QSharedPointer<SignalServer> signalServer;
 
     QTimer progressTimer;
     int indexOfStreamWithKnownFrameCount;

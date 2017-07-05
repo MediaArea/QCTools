@@ -275,35 +275,39 @@ void MainWindow::Zoom( bool on )
     configureZoom();
 }
 
-void MainWindow::changeFilterSelectorsOrder(QList<std::tuple<int, int> > filtersInfo)
+void MainWindow::changeFilterSelectorsOrder(QList<QPair<int, int> > filtersInfo)
 {
-    QSignalBlocker blocker(draggableBehaviour);
+    draggableBehaviour->blockSignals(true);
 
-    auto boxlayout = static_cast<QHBoxLayout*> (ui->horizontalLayout);
+    QHBoxLayout* boxlayout = static_cast<QHBoxLayout*> (ui->horizontalLayout);
 
     QList<QLayoutItem*> items;
 
-    for(std::tuple<int, int> groupAndType : filtersInfo)
+    QList<QPair<int, int> >::iterator groupAndType;
+    for(groupAndType = filtersInfo.begin(); groupAndType != filtersInfo.end(); ++groupAndType)
     {
-        int group = std::get<0>(groupAndType);
-        int type = std::get<1>(groupAndType);
+        int group = groupAndType->first;
+        int type = groupAndType->second;
 
-        auto rowsCount = boxlayout->count();
-        for(auto row = 0; row < rowsCount; ++row)
+        int rowsCount = boxlayout->count();
+        for(int row = 0; row < rowsCount; ++row)
         {
-            auto checkboxItem = boxlayout->itemAt(row);
+            QLayoutItem* checkboxItem = boxlayout->itemAt(row);
             if(checkboxItem->widget()->property("group") == group && checkboxItem->widget()->property("type") == type)
             {
                 items.append(boxlayout->takeAt(row));
                 break;
             }
         }
-    };
-
-    for(auto item : items)
-    {
-        boxlayout->addItem(item);
     }
+
+    QList<QLayoutItem*>::iterator item;
+    for(item = items.begin(); item != items.end(); ++item)
+    {
+        boxlayout->addItem(*item);
+    }
+
+    draggableBehaviour->blockSignals(false);
 }
 
 void MainWindow::updateScrollBar( bool blockSignals )
@@ -359,7 +363,7 @@ void MainWindow::Export_PDF()
 
     /*
     QwtPlotRenderer PlotRenderer;
-    PlotRenderer.renderDocument(const_cast<QwtPlot*>( PlotsArea->plot(TempType, Group_Y) ), 
+    PlotRenderer.renderDocument(const_cast<QwtPlot*>( PlotsArea->plot(TempType, Group_Y) ),
         SaveFileName, "PDF", QSizeF(210, 297), 150);
     QDesktopServices::openUrl(QUrl("file:///"+SaveFileName, QUrl::TolerantMode));
     */

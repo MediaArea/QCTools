@@ -10,7 +10,6 @@
 #include "Core/SignalServerConnectionChecker.h"
 #include "Core/Preferences.h"
 #include <QSettings>
-#include <QStandardPaths>
 #include <QMetaType>
 #include <QDebug>
 #include <QNetworkAccessManager>
@@ -44,12 +43,12 @@ PreferencesDialog::~PreferencesDialog()
     delete ui;
 }
 
-QList<std::tuple<int, int> > PreferencesDialog::loadFilterSelectorsOrder()
+QList<QPair<int, int> > PreferencesDialog::loadFilterSelectorsOrder()
 {
     return preferences.loadFilterSelectorsOrder();
 }
 
-void PreferencesDialog::saveFilterSelectorsOrder(const QList<std::tuple<int, int> > &order)
+void PreferencesDialog::saveFilterSelectorsOrder(const QList<QPair<int, int> > &order)
 {
     preferences.saveFilterSelectorsOrder(order);
 }
