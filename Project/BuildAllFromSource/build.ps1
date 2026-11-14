@@ -141,7 +141,6 @@ New-Item -ItemType directory -Name qctools\Project\QtCreator\build
 Push-Location -Path qctools\Project\QtCreator\build
     git -C .. apply "$SCRIPT_DIR\qtavplayer-pktinfo.patch" ; Cmd-Result
     git -C .. apply "$SCRIPT_DIR\qtavplayer-hwframe.patch" ; Cmd-Result
-    git -C .. apply "$SCRIPT_DIR\qtavplayer-vulkan-texture-guard.patch" ; Cmd-Result
     $Env:QWT_ROOT="$INSTALL_DIR/output"
     $Env:FFMPEG="$INSTALL_DIR/output"
     qmake QMAKE_CXXFLAGS+=/Zi QMAKE_LFLAGS+=/INCREMENTAL:NO QMAKE_LFLAGS+=/Debug DEFINES+=QT_AVPLAYER_MULTIMEDIA .. ; Cmd-Result

@@ -117,7 +117,6 @@ pushd qctools
     pushd Project/QtCreator
         patch -p1 < ../BuildAllFromSource/qtavplayer-pktinfo.patch
         patch -p1 < ../BuildAllFromSource/qtavplayer-hwframe.patch
-        patch -p1 < ../BuildAllFromSource/qtavplayer-vulkan-texture-guard.patch
         mkdir build
         pushd build
             qmake6 .. -after CONFIG+=force_debug_info LIBS+=-lharfbuzz LIBS+=-lfreetype

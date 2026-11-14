@@ -232,7 +232,6 @@ pushd qctools/Project/QtCreator/build
 (
     git -C .. apply "$SCRIPT_DIR/qtavplayer-pktinfo.patch"
     git -C .. apply "$SCRIPT_DIR/qtavplayer-hwframe.patch"
-    git -C .. apply "$SCRIPT_DIR/qtavplayer-vulkan-texture-guard.patch"
     export QWT_ROOT=$INSTALL_DIR/output FFMPEG=$INSTALL_DIR/output
     $BINQMAKE "${QT_CONFIGURE_OPTS[@]}" STATIC=1 ..
     make
