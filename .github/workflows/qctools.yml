@@ -134,7 +134,7 @@ jobs:
         echo `brew --prefix qt@5`/bin >> $GITHUB_PATH
 
 #    - name: Install Qt5
-#      uses: jurplel/install-qt-action@v3
+#      uses: jurplel/install-qt-action@v4
 #      with:
 #        version: ${{ matrix.qt_version }}
 #        modules: ${{ matrix.qt_modules }}
@@ -203,7 +203,7 @@ jobs:
         brew install vulkan-headers
 
     - name: Install Qt6
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt_version }}
         modules: ${{ matrix.qt_modules }}
@@ -266,7 +266,7 @@ jobs:
         git -C Project/QtCreator/qctools-QtAVPlayer apply -p2 "$PWD"/Project/BuildAllFromSource/qtavplayer-*.patch
 
     - name: Install Python 3.x version
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v7
       with:
         python-version: '3'
         architecture: 'x64'
@@ -277,7 +277,7 @@ jobs:
         sudo apt-get install -y ${{ matrix.packages }} ${{ matrix.qt_packages }}
 
     - name: Install Qt 5.15
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt_version }}
 
@@ -345,7 +345,7 @@ jobs:
         git -C Project/QtCreator/qctools-QtAVPlayer apply -p2 "$PWD"/Project/BuildAllFromSource/qtavplayer-*.patch
 
     - name: Install Python 3.x version
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v7
       with:
         python-version: '3'
         architecture: 'x64'
@@ -356,7 +356,7 @@ jobs:
         sudo apt-get install -y ${{ matrix.packages }} ${{ matrix.qt_packages }}
 
     - name: Install Qt 6
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt_version }}
         modules: ${{ matrix.qt_modules }}
@@ -436,7 +436,7 @@ jobs:
         make install
 
     - name: Install Qt 5.15
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         arch: win64_mingw81
         version: ${{ matrix.qt_version }}
@@ -516,7 +516,7 @@ jobs:
         make install
 
     - name: Install Qt 6
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         arch: win64_mingw
         version: ${{ matrix.qt_version }}
@@ -600,7 +600,7 @@ jobs:
         nmake install
 
     - name: Install Qt 5.15
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt_version }}
 
@@ -683,7 +683,7 @@ jobs:
         nmake install
 
     - name: Install Qt 6
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         arch: win64_msvc2019_64
         version: ${{ matrix.qt_version }}
