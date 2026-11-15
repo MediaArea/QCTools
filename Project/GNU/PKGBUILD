@@ -30,7 +30,6 @@ build() {
     cd Project/QtCreator
     patch -p1 < ../BuildAllFromSource/qtavplayer-pktinfo.patch
     patch -p1 < ../BuildAllFromSource/qtavplayer-hwframe.patch
-    patch -p1 < ../BuildAllFromSource/qtavplayer-vulkan-texture-guard.patch
     mkdir build
     cd build
     qmake6 -after LIBS+=-lharfbuzz LIBS+=-lfreetype ..
