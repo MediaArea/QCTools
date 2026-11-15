@@ -31,10 +31,10 @@ jobs:
 
     - name: Install qwt-qt5
       run: |
-        curl -L https://raw.githubusercontent.com/Homebrew/homebrew-core/56cd02e96876d1fb5b9ae951d605585fe8d614de/Formula/qwt.rb -o /opt/homebrew/Library/Taps/homebrew/homebrew-core/Formula/q/qwt.rb
-        git -C /opt/homebrew/Library/Taps/homebrew/homebrew-core add Formula/q/qwt.rb
-        git -C /opt/homebrew/Library/Taps/homebrew/homebrew-core commit -m "Formula/q/qwt.rb 6.2.0 for Qt5"
-        HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_FROM_API=1 brew install qwt
+        brew tap-new --no-git local/qwt
+        curl -fL https://raw.githubusercontent.com/Homebrew/homebrew-core/56cd02e96876d1fb5b9ae951d605585fe8d614de/Formula/qwt.rb -o "$(brew --repository local/qwt)/Formula/qwt.rb"
+        sed -i '' '/^  bottle do/,/^  end/d' "$(brew --repository local/qwt)/Formula/qwt.rb"
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install local/qwt/qwt
 
     - name: Set Qt5 environment path
       run: |
