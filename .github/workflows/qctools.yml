@@ -562,7 +562,7 @@ jobs:
       matrix:
         qt_version: ["5.15.*"]
 
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v5
@@ -603,6 +603,16 @@ jobs:
       uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt_version }}
+
+    - name: Apply Qt fix for MSVC 17.8+
+      shell: pwsh
+      run: |
+        # Backport of qtbase 52b6258ec8 (QTBUG-118993): stdext was removed from the MSVC STL
+        $file = "$env:QT_ROOT_DIR\include\QtCore\qcompilerdetection.h"
+        (Get-Content -Raw $file) `
+          -replace 'stdext::make_checked_array_iterator\(x, size_t\(N\)\)', '(x)' `
+          -replace 'stdext::make_unchecked_array_iterator\(x\)', '(x)' |
+          Set-Content -NoNewline $file
 
     - name: Install FFmpeg
       shell: pwsh
